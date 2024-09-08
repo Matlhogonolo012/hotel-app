@@ -1,9 +1,19 @@
-import { Link,useNavigate } from "react-router-dom";
-import Footer from "../components/footer";
-import Rooms from "../components/rooms";
-import Logo from "../components/logo";
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Footer from '../components/footer';
+import Rooms from '../components/rooms';
+import Logo from '../components/logo';
+import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer.jsx';
+import '/src/pages/sidebar.css';
 
 function Default() {
+  const dispatch = useDispatch();
+  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+
+  const handleSidebarToggle = () => {
+    dispatch(toggleSidebar());
+  };
+
   return (
     <div>
       <header>
@@ -14,13 +24,11 @@ function Default() {
         <div>
           <nav>
             <Logo />
-
             <Link to="/">Home</Link>
-
-            <button><Link to="/booking">
-            Book Now
-            </Link></button>
             <button>
+              <Link to="/booking">Book Now</Link>
+            </button>
+            <button className="sidebar-toggle" onClick={handleSidebarToggle}>
               <img
                 src="/src/assets/icons/user-circle-stroke-rounded.svg"
                 alt="user"
@@ -30,6 +38,19 @@ function Default() {
                 alt="menu"
               />
             </button>
+            <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <button onClick={handleSidebarToggle} className="close-sidebar">
+          X
+        </button>
+        <ul>
+          <li>
+            <Link to="/user">User Profile</Link>
+          </li>
+          <li>
+            <Link to="/admin">Admin Dashboard</Link>
+          </li>
+        </ul>
+      </div>
           </nav>
         </div>
       </header>
@@ -38,7 +59,7 @@ function Default() {
         <div>
           <img
             src="/src/assets/hotel-app-images/hotel-building.jpg"
-            alt="hote-building"
+            alt="hotel-building"
             width="1320"
             height="466"
           />
@@ -122,7 +143,7 @@ function Default() {
         <div>
           <h2>OUR ROOMS</h2>
         </div>
-        <Rooms/>
+        <Rooms />
         <div>
           <h2>RATINGS</h2>
         </div>
@@ -156,7 +177,7 @@ function Default() {
               facilities were a lifesaver. Only downside was the room size, but
               overall a fantastic stay!
             </p>
-            <p>— Mark R.,Free State</p>
+            <p>— Mark R., Free State</p>
           </div>
           <img
             src="/src/assets/hotel-app-images/rating.jpg"
@@ -173,9 +194,9 @@ function Default() {
           <iframe
             width="520"
             height="400"
-            frameborder="0"
-            marginheight="0"
-            marginwidth="0"
+            frameBorder="0"
+            marginHeight="0"
+            marginWidth="0"
             src="https://maps.google.com/maps?width=520&amp;height=400&amp;hl=en&amp;q=5088%20Maele%20street%20+(Arts%20and%20crafts%20centre)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
           >
             <a href="https://www.gps.ie/">gps devices</a>
@@ -183,18 +204,17 @@ function Default() {
         </div>
         <div>
           <h3>Address:</h3>
-
           <p>Arts and Crafts Centre</p>
           <p>5088 Maele street</p>
-
           <p>Zone 6</p>
           <p>Ga-Rankuwa</p>
           <p>Pretoria</p>
         </div>
       </main>
       <footer>
-        <Footer/>
+        <Footer />
       </footer>
+      
     </div>
   );
 }

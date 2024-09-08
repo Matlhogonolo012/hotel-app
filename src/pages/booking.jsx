@@ -4,7 +4,7 @@ import Logo from "../components/logo";
 import { Link } from "react-router-dom";
 import Rooms from "../components/rooms";
 import Footer from "../components/footer";
-import "/src/pages/booking.css";
+import "/src/pages/sidebar.css";
 
 function Booking() {
     const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
@@ -28,7 +28,7 @@ function Booking() {
                 <div className="availability-form">
                     <form>
                         <fieldset>
-                            <legend>Booking Details</legend>
+                            <legend>Booking Details: </legend>
                             <label htmlFor="check-in">Check-In:
                                 <input type="date" name="check-in" id="check-in" />
                             </label>
