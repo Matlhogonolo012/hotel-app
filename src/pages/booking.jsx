@@ -25,8 +25,8 @@ function Booking() {
                         <img src="/src/assets/icons/link-backward-stroke-rounded.svg" alt="Back" />
                     </Link>
                 </div>
-                <div className="availability-form">
-                    <form>
+                <div >
+                    <form className="availability-form">
                         <fieldset>
                             <legend>Booking Details: </legend>
                             <label htmlFor="check-in">Check-In:
@@ -49,7 +49,8 @@ function Booking() {
                     <img src="/src/assets/icons/filter-stroke-rounded.svg" alt={isSidebarOpen ? "Close filter" : "Open filter"} />
                 </button>
                 <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-                    <button className="close-sidebar" onClick={handleToggleSidebar}>X</button>
+                    <button className="close-sidebar" onClick={handleToggleSidebar}> <img src="/src/assets/icons/cancel-circle-stroke-rounded.svg" alt="cancel" />
+                    </button>
                     <div>
                         <label htmlFor="price-range">
                             Price Range:
@@ -83,16 +84,7 @@ function Booking() {
                             </select>
                         </label>
 
-                        <label htmlFor="amenities">
-                            Amenities:
-                            <select name="amenities" id="amenities">
-                                <option value="">Select amenities</option>
-                                <option value="wifi">Wi-Fi</option>
-                                <option value="pool">Pool</option>
-                                <option value="gym">Gym</option>
-                                <option value="parking">Parking</option>
-                            </select>
-                        </label>
+                       
                     </div>
                 </div>
                 <div>

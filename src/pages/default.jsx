@@ -18,9 +18,11 @@ function Default() {
     <div>
       <header>
         <div>
-          <p>Book by phone: 081 368 4688</p>
+          <p>Book by phone: 081 368 4688</p> OR  click icon
+          <Link to="https://wa.me/qr/YTSZ7HS4JE4QL1">
           <img src="/src/assets/icons/whatsapp-business-stroke-rounded.svg" alt="whatsapp-business" />
-        </div>
+       
+          </Link> </div>
         <div>
           <nav>
             <Logo />
@@ -40,14 +42,16 @@ function Default() {
             </button>
             <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <button onClick={handleSidebarToggle} className="close-sidebar">
-          X
+        <img src="/src/assets/icons/cancel-circle-stroke-rounded.svg" alt="cancel" />
+       
         </button>
         <ul>
+          <h3>Login as:</h3>
           <li>
-            <Link to="/user">User Profile</Link>
+            <Link to="/user-login">User</Link>
           </li>
           <li>
-            <Link to="/admin">Admin Dashboard</Link>
+            <Link to="/admin-login">Admin</Link>
           </li>
         </ul>
       </div>
@@ -191,17 +195,7 @@ function Default() {
           <h2>LOCATION</h2>
         </div>
         <div>
-          <iframe
-            width="520"
-            height="400"
-            frameBorder="0"
-            marginHeight="0"
-            marginWidth="0"
-            src="https://maps.google.com/maps?width=520&amp;height=400&amp;hl=en&amp;q=5088%20Maele%20street%20+(Arts%20and%20crafts%20centre)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-          >
-            <a href="https://www.gps.ie/">gps devices</a>
-          </iframe>
-        </div>
+      <div><iframe width="720" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=720&amp;height=400&amp;hl=en&amp;q=Ga-Rankuwa%20Arts%20and%20Crafts%20Centre%205088%20Maele%20Street+(Harmony%20Heights)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/">gps devices</a></iframe></div> </div>
         <div>
           <h3>Address:</h3>
           <p>Arts and Crafts Centre</p>
