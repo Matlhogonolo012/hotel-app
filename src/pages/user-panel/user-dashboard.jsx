@@ -2,8 +2,11 @@ import Logo from "../../components/logo"
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom"
 import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer.jsx';
+import { signOut, getAuth } from "firebase/auth";
+import { db } from "../../config/firebase";
 
 function UserDashboard(){
+    const auth = getAuth();
     const dispatch = useDispatch();
     const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
     const handleSidebarToggle = () => {
@@ -15,9 +18,13 @@ function UserDashboard(){
         <header>
             <Logo/>
             <p>User</p>
-            <Link to="/admin-login">
+            <button onClick={() => signOut(auth)}>
+
+                <Link to="/admin-login">
             <img src="/src/assets/icons/logout-01-stroke-rounded.svg" alt="logout" />
-            </Link>
+            </Link>  
+            </button>
+          
             <button className="sidebar-toggle" onClick={handleSidebarToggle}>
              
               <img
