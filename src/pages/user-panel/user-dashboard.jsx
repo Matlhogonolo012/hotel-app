@@ -1,24 +1,31 @@
 import Logo from "../../components/logo"
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer.jsx';
-import { signOut, getAuth } from "firebase/auth";
 import { db } from "../../config/firebase";
+import { setUserLogout } from "../../redux-state-management/features/authentication-reducer";
 
 function UserDashboard(){
-    const auth = getAuth();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
     const handleSidebarToggle = () => {
         dispatch(toggleSidebar());
       };
 
+      const logout =() => {
+        const userLogOut = dispatch(setUserLogout());
+        if (userLogOut){
+            navigate("/user-login")
+            alert("logged out")
+        }
+      }
  return(
     <div>
         <header>
             <Logo/>
             <p>User</p>
-            <button onClick={() => signOut(auth)}>
+            <button onClick={ logout}>
 
                 <Link to="/admin-login">
             <img src="/src/assets/icons/logout-01-stroke-rounded.svg" alt="logout" />
@@ -65,10 +72,11 @@ function UserDashboard(){
             <option value="mrs">Dr</option>
             <option value="mrs">Other</option>
         </select>
+        <br />
         </label>
 <label htmlFor="">Name & Surname:
     <input type="text" />
-    
+    <br />
 </label>
 <label htmlFor="">Gender:
     <select name="" id="">
@@ -79,7 +87,7 @@ function UserDashboard(){
     </select>
     
 </label>
-
+<br />
 <label htmlFor="">
     Nationality:
     <select name="nationality" id="">
@@ -92,24 +100,29 @@ function UserDashboard(){
         <option value="Other">Other</option>
     </select>
 </label>
-
+<br />
 <label htmlFor="">ID/Passport Number:
     <input type="number" />
 </label>
+<br />
 <label htmlFor="">Date of Birth:
     <input type="date" />
 </label>
+<br />
 <label htmlFor="">
     Home or Postal Address:
     <textarea type="text" />
 </label>
+<br />
 <label htmlFor="">
 Mobile Number:
 <input type="number" />
 </label>
+<br />
 <label htmlFor="">Email:
     <input type="email" />
 </label>
+<br />
 <input type="submit" />
      </fieldset>
         

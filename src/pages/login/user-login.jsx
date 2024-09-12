@@ -72,7 +72,7 @@ function UserLogin() {
                     </fieldset>
                 </form>
 
-                Forgot Password? <Link to="/reset-password">Reset</Link>
+                Forgot Password? <Link to="/forgot-password">Reset</Link>
             </div>
         </div>
     );

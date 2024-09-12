@@ -5,14 +5,28 @@ import { Link } from "react-router-dom";
 import Rooms from "../components/rooms";
 import Footer from "../components/footer";
 import "/src/pages/sidebar.css";
+import { setBookingDetails } from '../redux-state-management/features/booking-reducer';
+import search from "/src/assets/icons/search-01-stroke-rounded.svg"
 
 function Booking() {
+
     const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
     const dispatch = useDispatch();
 
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
     };
+    const handleChange =(e) => {
+        e.target.value
+    }
+    const handleCheckAvailability=() =>{
+        e.preventDefault();
+        dispatch(setBookingDetails(checkIn, checkOut, guests, rooms ))
+    }
+    const handleBooking= ()=>{
+        e.preventDefault();
+
+    }
 
     return (
         <div>
@@ -25,25 +39,50 @@ function Booking() {
                         <img src="/src/assets/icons/link-backward-stroke-rounded.svg" alt="Back" />
                     </Link>
                 </div>
-                <div >
-                    <form className="availability-form">
+                <div className=' right-side-booking'>
+                    <form className="availability-form" onSubmit={handleCheckAvailability}>
                         <fieldset>
                             <legend>Booking Details: </legend>
                             <label htmlFor="check-in">Check-In:
-                                <input type="date" name="check-in" id="check-in" />
+                                <input type="date" name="check-in" id="check-in" onChange={handleChange} value/>
                             </label>
                             <label htmlFor="check-out">Check-Out:
-                                <input type="date" name="check-out" id="check-out" />
+                                <input type="date" name="check-out" id="check-out" onChange={handleChange} />
                             </label>
                             <label htmlFor="guests">Number of guests:
-                                <input type="number" name="guests" id="guests" />
+                                <input type="number" name="guests" id="guests" onChange={handleChange} />
                             </label>
                             <label htmlFor="rooms">Number of rooms:
-                                <input type="number" name="rooms" id="rooms" />
+                                <input type="number" name="rooms" id="rooms" onChange={handleChange}/>
                             </label>
                             <button type="submit">Check Availability</button>
                         </fieldset>
-                    </form>
+                    </form >
+
+<div className='right-side-booking'>
+    <fieldset>
+                        <legend>
+                            Booking Summary
+                        </legend>
+                        
+                        <ul>
+                            <li>
+                                Room info
+                            </li>
+                        </ul>
+                        <button onClick={handleBooking}>Book</button>
+                    </fieldset> 
+</div>
+                   
+                    <div> <form action="">
+                        <label htmlFor=""> <img src={search}alt="search-icon" />  
+                            <input type="text" placeholder='Search by room name' />
+                            <button>
+                                Search
+                            </button>
+                        </label>
+                        </form>
+                    </div>
                 </div>
                 <button className="sidebar-toggle" onClick={handleToggleSidebar}>
                     <img src="/src/assets/icons/filter-stroke-rounded.svg" alt={isSidebarOpen ? "Close filter" : "Open filter"} />

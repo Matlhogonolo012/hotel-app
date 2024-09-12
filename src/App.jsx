@@ -8,6 +8,7 @@ import UserRegister from "./pages/register/user-registration";
 import PageDoesNotExist from "./pages/page-does-not-exist";
 import AdminDashboard from "./pages/admin-panel/admin-dashboard";
 import UserDashboard from "./pages/user-panel/user-dashboard";
+import ForgotPassword from "./pages/login/forgot-password";
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
     <Route path="/user-login" element={<UserLogin/>}/>
     <Route path="/admin-registration" element={<AdminRegister/>}/>
     <Route path="/user-registration" element={<UserRegister/>}/>
+    <Route path="/forgot-password" element={<ForgotPassword/>}/>
     <Route path="*" element={<PageDoesNotExist/>}/>
     <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
     <Route path="/user-dashboard"  element={<UserDashboard/>}/>
