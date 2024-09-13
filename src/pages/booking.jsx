@@ -9,14 +9,14 @@ import "/src/pages/sidebar.css";
 import { addBooking } from '../redux-state-management/features/firestore-reducer/firestore';
 import { setBookingDetails} from '../redux-state-management/features/booking-reducer';
 import search from "/src/assets/icons/search-01-stroke-rounded.svg";
-
+import Select from 'react-select';
 
 function Booking() {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
     const [guests, setGuests] = useState('');
     const [rooms, setRooms] = useState('');
-    const [roomType, setRoomType] = useState('');
+    const [roomType, setRoomType] = useState("");
 
     const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
     const dispatch = useDispatch();
@@ -47,6 +47,11 @@ function Booking() {
                 break;
         }
     };
+    const options = [
+        { value: 'connecting-rooms', label: 'Connecting Rooms' },
+        { value: 'family-suite', label: 'Family Suite' },
+        { value: 'deluxe-family-room', label: 'Deluxe Family Room' },
+      ];
 
     // const handleCheckAvailability = (e) => {
     //     e.preventDefault();
@@ -56,9 +61,9 @@ function Booking() {
 
     const handleBooking = async (e) => {
         e.preventDefault();
-        dispatch(addBooking({ checkIn, checkOut, guests, rooms }));
+        dispatch(addBooking({ checkIn, checkOut, guests, rooms, roomType }));
     };
-
+console.log(roomType)
     return (
         <div>
             <header>
@@ -113,12 +118,13 @@ function Booking() {
                                     onChange={handleChange}
                                     value={rooms}
                                 />
-                                <label htmlFor="type-of-room">
-                                    <option value="">
-                                        <select name="" id=""></select>
-                                    </option>
-                                </label>
-                            </label>
+                              
+                            </label> 
+                            <Select
+        value={roomType}
+        onChange={handleChange}
+        options={options}
+      />
                             <button type="submit">Check Availability</button>
                         </fieldset>
                     </form>
@@ -135,21 +141,6 @@ function Booking() {
                     </div> 
                     </form>
                     
-
-                    <div className='search-form'>
-                        <form action="">
-                            <label htmlFor="room-search">
-                                <img src={search} alt="Search icon" />
-                                <input
-                                    type="text"
-                                    id="room-search"
-                                    placeholder='Search by room name'
-                                />
-                                <button type="submit">Search</button>
-                            </label>
-                        </form>
-                    </div>
-                </div>
 
                 <button className="sidebar-toggle" onClick={handleToggleSidebar}>
                     <img
@@ -197,9 +188,24 @@ function Booking() {
                     </div>
                 </div>
 
-                <div>
+                <div className='search-form'>
+                        <form action="">
+                            <label htmlFor="room-search">
+                                <img src={search} alt="Search icon" />
+                                <input
+                                    type="text"
+                                    id="room-search"
+                                    placeholder='Search by room name'
+                                />
+                                <button type="submit">Search</button>
+                            </label> <div>
                     <Rooms />
                 </div>
+                        </form>
+                    </div>
+                </div>
+
+               
             </main>
             <footer>
                 <Footer />

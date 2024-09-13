@@ -1,4 +1,3 @@
-// adminAuthSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../config/firebase';
@@ -21,6 +20,7 @@ export const adminAuthSlice = createSlice({
         })
         .catch((error) => {
           console.log(error.message);
+
         });
     },
     setAdminLogin: (state, action) => {

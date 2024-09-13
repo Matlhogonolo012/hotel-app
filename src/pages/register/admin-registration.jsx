@@ -3,34 +3,32 @@ import Logo from "../../components/logo";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { setAdminRegistration } from "../../redux-state-management/admin-reducer";
+
 function AdminRegister(){
-    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    const { name, value,username } = e.target;
+    const { name, value} = e.target;
      if (name === "email") {
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
-    }
-    else if (username === "username") {
-      setUsername(value)
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username && !email && !password) {
+    if ( !email || !password) {
       alert(" Your username, email and password are required!");
       return;
     }
     dispatch(setAdminRegistration(email, password));
   };
+
     return(
       <div>
         <header>

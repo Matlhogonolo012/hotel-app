@@ -10,7 +10,7 @@ const initialState = {
     rooms: 0,
     bookingStatus: '',
     error: null,
-    roomType: '',
+    roomType: null,
 };
 
 const firestoreSlice = createSlice({
