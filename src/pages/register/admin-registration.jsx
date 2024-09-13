@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "../../components/logo";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { setUserRegistration } from "../../redux-state-management/features/authentication-reducer";
-
+import { setAdminRegistration } from "../../redux-state-management/admin-reducer";
 function AdminRegister(){
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -30,7 +29,7 @@ function AdminRegister(){
       alert(" Your username, email and password are required!");
       return;
     }
-    dispatch(setUserRegistration(email, password));
+    dispatch(setAdminRegistration(email, password));
   };
     return(
       <div>
@@ -50,10 +49,10 @@ function AdminRegister(){
     <legend>
         Admin Registration
     </legend>
-    <input className="username" type="text" placeholder="Username" name="username" autoComplete="no" onChange={handleChange} /> <br />
+    
     <input className="email" type="email" placeholder="Email" name="email" autoComplete="no" onChange={handleChange} /> <br />
     <input className="password" type="password" placeholder="Password" name="password" autoComplete="no" onChange={handleChange}/> <br />
-    <input className="confirm-password" type="password" placeholder="Confirm Password" name="confirm-password" autoComplete="no" onChange={handleChange}/> <br />
+    
     <button>Register</button>
 </fieldset>
 </form>   

@@ -1,21 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { db } from '../../config/firebase';
 
 const bookingSlice = createSlice({
   name: 'booking',
   initialState: {
     checkIn: '',
     checkOut: '',
-    guests: 1,
-    rooms: 1,
+    guests: 0,
+    rooms: 0,
+    bookingStatus: '',
+    error: null,
   },
   reducers: {
-    setBookingDetails: (state, action) => {
-      state.checkIn = action.payload.checkIn;
-      state.checkOut = action.payload.checkOut;
-      state.guests = action.payload.guests;
-      state.rooms = action.payload.rooms;
-    },
-  },
+    
+  setBookingDetails: async(state, action) =>{
+        const docRef = await addDoc (collection( db, "bookings"), action.payload)
+    }
+},
 });
 
 export const { setBookingDetails } = bookingSlice.actions;
