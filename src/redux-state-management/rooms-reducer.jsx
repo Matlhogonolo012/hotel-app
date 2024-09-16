@@ -1,38 +1,41 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { db } from '/src/config/firebase.jsx';
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db } from '/src/config/firebase.jsx'; 
 
-export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async () => {
-    const snapshot = await db.collection('rooms').get();
-    const rooms = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return rooms;
+const initialState = {
+    rooms: [],
+    selectedRooms: [],
+    filteredRooms: [],
+    status: 'idle',
+    error: null,
+};
+
+export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async (_, { rejectWithValue }) => {
+    try {
+        const querySnapshot = await getDocs(collection(db, 'rooms'));
+        const rooms = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return rooms;
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
 });
 
-export const addRoom = createAsyncThunk('rooms/addRoom', async (newRoom) => {
-    const docRef = await db.collection('rooms').add(newRoom);
-    const doc = await docRef.get();
-    return { id: doc.id, ...doc.data() };
-});
-
-export const updateRoom = createAsyncThunk('rooms/updateRoom', async ({ id, updatedRoom }) => {
-    await db.collection('rooms').doc(id).update(updatedRoom);
-    const doc = await db.collection('rooms').doc(id).get();
-    return { id: doc.id, ...doc.data() };
-});
-
-export const deleteRoom = createAsyncThunk('rooms/deleteRoom', async (id) => {
-    await db.collection('rooms').doc(id).delete();
-    return id;
+export const addRoom = createAsyncThunk('rooms/addRoom', async (newRoom, { rejectWithValue }) => {
+    try {
+        const docRef = await addDoc(collection(db, 'rooms'), newRoom);
+        return { id: docRef.id, ...newRoom };
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
 });
 
 const roomsSlice = createSlice({
     name: 'rooms',
-    initialState: {
-        rooms: [],
-        selectedRooms: [],
-        status: 'idle',
-        error: null,
-    },
+    initialState,
     reducers: {
+        setError(state, action) {
+            state.error = action.payload;
+        },
         selectRoom(state, action) {
             const roomId = action.payload;
             if (!state.selectedRooms.includes(roomId)) {
@@ -46,6 +49,30 @@ const roomsSlice = createSlice({
         clearSelectedRooms(state) {
             state.selectedRooms = [];
         },
+        setRooms(state, action) {
+            state.rooms = action.payload;
+            state.filteredRooms = action.payload; 
+        },
+        updateRoom(state, action) {
+            const index = state.rooms.findIndex(room => room.id === action.payload.id);
+            if (index >= 0) {
+                state.rooms[index] = action.payload;
+            }
+        },
+        deleteRoom(state, action) {
+            state.rooms = state.rooms.filter(room => room.id !== action.payload);
+            state.filteredRooms = state.filteredRooms.filter(room => room.id !== action.payload);
+        },
+        setStatus(state, action) {
+            state.status = action.payload;
+        },
+        searchRooms(state, action) {
+            const query = action.payload.toLowerCase();
+            state.filteredRooms = state.rooms.filter(room =>
+                (room.description && room.description.toLowerCase().includes(query)) ||
+                (room.roomType && room.roomType.toLowerCase().includes(query))
+            );
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -55,25 +82,32 @@ const roomsSlice = createSlice({
             .addCase(fetchRooms.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.rooms = action.payload;
+                state.filteredRooms = action.payload; // Initialize filtered rooms
             })
             .addCase(fetchRooms.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message;
+                state.error = action.payload;
             })
             .addCase(addRoom.fulfilled, (state, action) => {
                 state.rooms.push(action.payload);
+                state.filteredRooms.push(action.payload);
             })
-            .addCase(updateRoom.fulfilled, (state, action) => {
-                const index = state.rooms.findIndex(room => room.id === action.payload.id);
-                if (index >= 0) {
-                    state.rooms[index] = action.payload;
-                }
-            })
-            .addCase(deleteRoom.fulfilled, (state, action) => {
-                state.rooms = state.rooms.filter(room => room.id !== action.payload);
+            .addCase(addRoom.rejected, (state, action) => {
+                state.error = action.payload;
             });
-    },
+    }
 });
 
-export const { selectRoom, unselectRoom, clearSelectedRooms } = roomsSlice.actions;
+export const {
+    setError,
+    selectRoom,
+    unselectRoom,
+    clearSelectedRooms,
+    setRooms,
+    updateRoom,
+    deleteRoom,
+    setStatus,
+    searchRooms
+} = roomsSlice.actions;
+
 export default roomsSlice.reducer;

@@ -2,6 +2,8 @@ import Logo from "../../components/logo"
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom"
 import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer.jsx';
+import RoomList from "./roomList";
+import AddRoomForm from "./add-room-admin";
 
 function AdminDashboard(){
     const dispatch = useDispatch();
@@ -32,13 +34,13 @@ function AdminDashboard(){
         <ul>
           
           <li>
-            <Link to="/admin-dashboard">Current Bookings</Link>
+            <Link to="/add-room-admin">Add Bookings</Link>
           </li>
           <li>
             <Link to="/reserved">Reserved Rooms</Link>
           </li>
          <li>
-            <Link to="/available">Available Rooms</Link>
+            <Link to="/selectedRooms">Selected Rooms</Link>
           </li>
           <li>
             <Link to="/cancellations">Cancellations</Link>
@@ -50,23 +52,22 @@ function AdminDashboard(){
       </div>
         </header>
 <main> 
-     <h2>
-            Current Bookings:
+  <div>
+  <h2>
+            Create a room:
         </h2>
+<AddRoomForm/>
+</div>
     <div>
+      <h2>Added Rooms:</h2>
      <fieldset>
         <legend>
-            Room--
+            Rooms
         </legend>
-        details..........
-        <button>
-            Update
-        </button>
-        <button>
-            Checkout
-        </button>
+       <RoomList/>
      </fieldset>
     </div>
+    
 </main>
     </div>
     )

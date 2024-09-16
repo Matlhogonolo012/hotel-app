@@ -9,6 +9,8 @@ import PageDoesNotExist from "./pages/page-does-not-exist";
 import AdminDashboard from "./pages/admin-panel/admin-dashboard";
 import UserDashboard from "./pages/user-panel/user-dashboard";
 import ForgotPassword from "./pages/login/forgot-password";
+import AddRoomForm from "./pages/admin-panel/add-room-admin";
+
 
 function App() {
   
@@ -26,6 +28,8 @@ function App() {
     <Route path="*" element={<PageDoesNotExist/>}/>
     <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
     <Route path="/user-dashboard"  element={<UserDashboard/>}/>
+    <Route path="/add-room-admin"  element={<AddRoomForm/>} />
+
     </Routes>
     </BrowserRouter>
  

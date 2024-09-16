@@ -58,7 +58,6 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-// Slice
 const userAuthSlice = createSlice({
   name: 'userAuthentication',
   initialState: {
@@ -74,7 +73,7 @@ const userAuthSlice = createSlice({
     builder
       .addCase(registerUser.pending, (state) => {
         state.user.loading = true;
-        state.user.error = null; // Clear previous errors
+        state.user.error = null; 
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.user.email = action.payload.email;
@@ -89,7 +88,7 @@ const userAuthSlice = createSlice({
       })
       .addCase(loginUser.pending, (state) => {
         state.user.loading = true;
-        state.user.error = null; // Clear previous errors
+        state.user.error = null; 
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user.email = action.payload.email;
@@ -103,7 +102,7 @@ const userAuthSlice = createSlice({
       })
       .addCase(logoutUser.pending, (state) => {
         state.user.loading = true;
-        state.user.error = null; // Clear previous errors
+        state.user.error = null; 
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user.email = "";
@@ -118,7 +117,7 @@ const userAuthSlice = createSlice({
       })
       .addCase(resetPassword.pending, (state) => {
         state.user.loading = true;
-        state.user.error = null; // Clear previous errors
+        state.user.error = null; 
       })
       .addCase(resetPassword.fulfilled, (state) => {
         state.user.loading = false;
