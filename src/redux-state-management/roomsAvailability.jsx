@@ -1,48 +1,52 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '/src/config/firebase.jsx';
-import { updateRoom } from './rooms-reducer'; 
 
-export const fetchRoomAvailability = createAsyncThunk(
-    'roomAvailability/fetchRoomAvailability',
-    async (roomId, { dispatch }) => {
-        try {
-            const roomDoc = await db.collection('rooms').doc(roomId).get();
-            if (!roomDoc.exists) {
-                throw new Error('Room does not exist');
-            }
-            const roomData = { id: roomId, ...roomDoc.data() };
-            dispatch(updateRoom(roomData)); 
-            return roomData;
-        } catch (error) {
-            throw new Error(error.message);
-        }
+const initialState = {
+    availability: {},
+    status: 'idle',
+    error: null,
+};
+
+export const checkRoomAvailability = createAsyncThunk('roomAvailability/checkRoomAvailability', async ({ roomId, date }, { rejectWithValue }) => {
+    try {
+        const q = query(collection(db, 'bookings'), where('roomId', '==', roomId), where('date', '==', date));
+        const querySnapshot = await getDocs(q);
+        const isAvailable = querySnapshot.empty;
+        return { roomId, date, isAvailable };
+    } catch (error) {
+        return rejectWithValue(error.message);
     }
-);
+});
 
 const roomAvailabilitySlice = createSlice({
     name: 'roomAvailability',
-    initialState: {
-        rooms: {},
-        status: 'idle',
-        error: null,
+    initialState,
+    reducers: {
+        setError(state, action) {
+            state.error = action.payload;
+        },
     },
-    reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchRoomAvailability.pending, (state) => {
+            .addCase(checkRoomAvailability.pending, (state) => {
                 state.status = 'loading';
-                state.error = null;
             })
-            .addCase(fetchRoomAvailability.fulfilled, (state, action) => {
+            .addCase(checkRoomAvailability.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                const { id, ...roomData } = action.payload;
-                state.rooms[id] = roomData;
+                const { roomId, date, isAvailable } = action.payload;
+                if (!state.availability[roomId]) {
+                    state.availability[roomId] = {};
+                }
+                state.availability[roomId][date] = isAvailable;
             })
-            .addCase(fetchRoomAvailability.rejected, (state, action) => {
+            .addCase(checkRoomAvailability.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message;
+                state.error = action.payload;
             });
     },
 });
+
+export const { setError } = roomAvailabilitySlice.actions;
 
 export default roomAvailabilitySlice.reducer;

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRooms, selectRoom, unselectRoom, searchRooms, updateRoom, deleteRoom } from '/src/redux-state-management/rooms-reducer.jsx';
+import { fetchRooms, searchRooms, updateRoom, deleteRoom } from '/src/redux-state-management/rooms-reducer.jsx';
 
 const RoomList = () => {
     const dispatch = useDispatch();
-    const rooms = useSelector((state) => state.rooms.rooms);
     const filteredRooms = useSelector((state) => state.rooms.filteredRooms);
-    const selectedRooms = useSelector((state) => state.rooms.selectedRooms);
     const status = useSelector((state) => state.rooms.status);
     const error = useSelector((state) => state.rooms.error);
 

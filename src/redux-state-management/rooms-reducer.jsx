@@ -92,6 +92,7 @@ const roomsSlice = createSlice({
             state.filteredRooms = state.rooms.filter(room =>
                 (room.description && room.description.toLowerCase().includes(query)) ||
                 (room.roomType && room.roomType.toLowerCase().includes(query))
+              
             );
         }
     },

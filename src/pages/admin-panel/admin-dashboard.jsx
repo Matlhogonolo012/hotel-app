@@ -34,12 +34,12 @@ function AdminDashboard(){
         <ul>
           
           <li>
-            <Link to="/add-room-admin">Add Bookings</Link>
+            <Link to="/add-room-admin">Add rooms</Link>
           </li>
           <li>
-            <Link to="/reserved">Reserved Rooms</Link>
+            <Link to="/reserved">Reservations</Link>
           </li>
-         <li>
+         {/* <li>
             <Link to="/selectedRooms">Selected Rooms</Link>
           </li>
           <li>
@@ -47,7 +47,7 @@ function AdminDashboard(){
           </li>
           <li>
             <Link to="/Registered-users">Registered Users</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
         </header>

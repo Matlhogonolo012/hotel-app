@@ -5,7 +5,9 @@ import  adminAuthSlice  from './admin-reducer';
 import  firestoreSlice from './features/firestore-reducer/firestore';
 import userProfileSlice from '/src/redux-state-management/features/firestore-reducer/user-profile-reducer.jsx'
 import roomsSlice from '/src/redux-state-management/rooms-reducer.jsx'
-import roomAvailabilitySlice from '/src/redux-state-management/roomsAvailability.jsx'
+import roomAvailabilityReducer from '/src/redux-state-management/roomsAvailability.jsx'
+import ratingsReducer from './features/ratings-reducer';
+import bookingSlice from '/src/redux-state-management/features/booking-crud-reducer.jsx'
 
 export const store = configureStore({
     reducer: {
@@ -15,7 +17,9 @@ export const store = configureStore({
         adminAuthentication: adminAuthSlice,
         userProfile: userProfileSlice,
         rooms: roomsSlice,
-        roomAvailability: roomAvailabilitySlice
+        ratings: ratingsReducer,
+        roomAvailability: roomAvailabilityReducer,
+        bookings: bookingSlice
     },
 });
 export default store

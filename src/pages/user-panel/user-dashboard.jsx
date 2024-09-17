@@ -1,17 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { fetchUserProfile, updateUserProfile } from '/src/redux-state-management/features/firestore-reducer/user-profile-reducer';
 import { useNavigate } from 'react-router-dom';
-import Logo from "../../components/logo";
+import Logo from '../../components/logo';
 import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer';
 import { logoutUser } from '../../redux-state-management/features/authentication-reducer';
+import { fetchUserProfile, updateUserProfile } from '/src/redux-state-management/features/firestore-reducer/user-profile-reducer';
 
 function UserDashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
-  const profile = useSelector((state) => state.userProfile.profile);
+  const profile = useSelector((state) => state.userProfile.userProfile);
   const user = useSelector((state) => state.userAuthentication.user);
+
   const [formData, setFormData] = useState({
     title: '',
     name: '',
@@ -24,31 +26,43 @@ function UserDashboard() {
     email: '',
     titleOther: '',
     genderOther: '',
-    nationalityOther: ''
+    nationalityOther: '',
   });
-  const [editMode, setEditMode] = useState(false);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (user.uid) {
+    if (user?.uid) {
       dispatch(fetchUserProfile(user.uid));
     }
-  }, [user.uid, dispatch]);
+  }, [user?.uid, dispatch]);
 
   useEffect(() => {
     if (profile) {
-      setFormData(profile);
+      setFormData({
+        title: profile.title || '',
+        name: profile.name || '',
+        gender: profile.gender || '',
+        nationality: profile.nationality || '',
+        idNumber: profile.idNumber || '',
+        dob: profile.dob || '',
+        address: profile.address || '',
+        mobileNumber: profile.mobileNumber || '',
+        email: profile.email || '',
+        titleOther: profile.titleOther || '',
+        genderOther: profile.genderOther || '',
+        nationalityOther: profile.nationalityOther || '',
+      });
     }
   }, [profile]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const validate = () => {
     let newErrors = {};
-    
+
     if (!formData.name) {
       newErrors.name = 'Name is required.';
     }
@@ -68,17 +82,16 @@ function UserDashboard() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    let validationErrors = validate();
+
+    const validationErrors = validate();
     setErrors(validationErrors);
-    
+
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
 
-    if (user.uid) {
-      dispatch(updateUserProfile(user.uid, formData));
-      setEditMode(false); 
+    if (user?.uid) {
+      dispatch(updateUserProfile({ uid: user.uid, profileData: formData }));
     }
   };
 
@@ -117,11 +130,11 @@ function UserDashboard() {
         <div>
           <form onSubmit={handleSubmit}>
             <fieldset>
-              <legend>{editMode ? 'Edit Your Details' : 'User Details'}</legend>
-              
+              <legend>User Details</legend>
+
               <label>
                 Title:
-                <select name="title" value={formData.title} onChange={handleChange} disabled={!editMode}>
+                <select name="title" value={formData.title} onChange={handleChange}>
                   <option value="">-- Select Title --</option>
                   <option value="Mrs">Mrs</option>
                   <option value="Mr">Mr</option>
@@ -130,7 +143,7 @@ function UserDashboard() {
                   <option value="Dr">Dr</option>
                   <option value="Other">Other</option>
                 </select>
-                {formData.title === 'Other' && editMode && (
+                {formData.title === 'Other' && (
                   <input
                     type="text"
                     name="titleOther"
@@ -141,7 +154,7 @@ function UserDashboard() {
                 )}
               </label>
               <br />
-              
+
               <label>
                 Name & Surname:
                 <input
@@ -149,21 +162,20 @@ function UserDashboard() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  disabled={!editMode}
                 />
                 {errors.name && <p className="error">{errors.name}</p>}
               </label>
               <br />
-              
+
               <label>
                 Gender:
-                <select name="gender" value={formData.gender} onChange={handleChange} disabled={!editMode}>
+                <select name="gender" value={formData.gender} onChange={handleChange}>
                   <option value="">-- Select Gender --</option>
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
                   <option value="Other">Other</option>
                 </select>
-                {formData.gender === 'Other' && editMode && (
+                {formData.gender === 'Other' && (
                   <input
                     type="text"
                     name="genderOther"
@@ -174,10 +186,10 @@ function UserDashboard() {
                 )}
               </label>
               <br />
-              
+
               <label>
                 Nationality:
-                <select name="nationality" value={formData.nationality} onChange={handleChange} disabled={!editMode}>
+                <select name="nationality" value={formData.nationality} onChange={handleChange}>
                   <option value="">-- Select Nationality --</option>
                   <option value="Botswana">Botswana</option>
                   <option value="Russia">Russia</option>
@@ -186,7 +198,7 @@ function UserDashboard() {
                   <option value="South Africa">South Africa</option>
                   <option value="Other">Other</option>
                 </select>
-                {formData.nationality === 'Other' && editMode && (
+                {formData.nationality === 'Other' && (
                   <input
                     type="text"
                     name="nationalityOther"
@@ -197,7 +209,7 @@ function UserDashboard() {
                 )}
               </label>
               <br />
-              
+
               <label>
                 ID/Passport Number:
                 <input
@@ -205,11 +217,10 @@ function UserDashboard() {
                   name="idNumber"
                   value={formData.idNumber}
                   onChange={handleChange}
-                  disabled={!editMode}
                 />
               </label>
               <br />
-              
+
               <label>
                 Date of Birth:
                 <input
@@ -217,22 +228,20 @@ function UserDashboard() {
                   name="dob"
                   value={formData.dob}
                   onChange={handleChange}
-                  disabled={!editMode}
                 />
               </label>
               <br />
-              
+
               <label>
                 Address:
                 <textarea
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  disabled={!editMode}
                 />
               </label>
               <br />
-              
+
               <label>
                 Mobile Number:
                 <input
@@ -240,12 +249,11 @@ function UserDashboard() {
                   name="mobileNumber"
                   value={formData.mobileNumber}
                   onChange={handleChange}
-                  disabled={!editMode}
                 />
                 {errors.mobileNumber && <p className="error">{errors.mobileNumber}</p>}
               </label>
               <br />
-              
+
               <label>
                 Email:
                 <input
@@ -253,20 +261,12 @@ function UserDashboard() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  disabled={!editMode}
                 />
                 {errors.email && <p className="error">{errors.email}</p>}
               </label>
               <br />
-              
-              {editMode ? (
-                <>
-                  <input type="submit" value="Save Changes" />
-                  <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
-                </>
-              ) : (
-                <button type="button" onClick={() => setEditMode(true)}>Edit</button>
-              )}
+
+              <input type="submit" value="Save Changes" />
             </fieldset>
           </form>
         </div>

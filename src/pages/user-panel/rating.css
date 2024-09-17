@@ -1,0 +1,29 @@
+/* src/components/StarRating.css */
+.star {
+    font-size: 2rem;
+    color: gold;
+  }
+  
+  button.on .star {
+    color: gold;
+  }
+  
+  button.off .star {
+    color: grey;
+  }
+  
+  textarea {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  

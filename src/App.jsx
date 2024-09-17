@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/login/forgot-password";
 import AddRoomForm from "./pages/admin-panel/add-room-admin";
 import TermsAndConditions from "./pages/terms-privacy.jsx/terms-and-conditions";
 import PrivacyPolicy from "./pages/terms-privacy.jsx/privacy-policy";
+import UserRating from "./pages/user-panel/ratings";
 
 function App() {
   
@@ -31,7 +32,9 @@ function App() {
     <Route path="/add-room-admin"  element={<AddRoomForm/>} />nd
     <Route path="/terms-and-conditions" element={<TermsAndConditions/>}/>
     <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+    <Route path="/ratings" element={<UserRating/>}/>
     <Route path="*" element={<PageDoesNotExist/>}/>
+    
     </Routes>
     </BrowserRouter>
  

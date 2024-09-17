@@ -5,7 +5,7 @@ import Logo from "../components/logo";
 import { Link } from "react-router-dom";
 import Footer from "../components/footer";
 import { addBooking } from '../redux-state-management/features/firestore-reducer/firestore';
-import { fetchRooms } from '/src/redux-state-management/rooms-reducer.jsx'; 
+import { fetchRooms, searchRooms } from '/src/redux-state-management/rooms-reducer.jsx'; 
 import "/src/pages/sidebar.css";
 
 function Booking() {
@@ -17,11 +17,12 @@ function Booking() {
     const [selectedRoomId, setSelectedRoomId] = useState('');
     const [roomInfo, setRoomInfo] = useState(null);
     const [error, setError] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
     const dispatch = useDispatch();
 
-    const roomsData = useSelector((state) => state.rooms.rooms);
+    const roomsData = useSelector((state) => state.rooms.filteredRooms); 
     const roomsStatus = useSelector((state) => state.rooms.status);
     const roomsError = useSelector((state) => state.rooms.error);
 
@@ -32,15 +33,18 @@ function Booking() {
     useEffect(() => {
         if (selectedRoomId) {
             const selectedRoom = roomsData.find(room => room.id === selectedRoomId);
-            if (selectedRoom) {
-                setRoomInfo(selectedRoom);
-                setError('');
-            } else {
-                setRoomInfo(null);
+            setRoomInfo(selectedRoom || null);
+            if (!selectedRoom) {
                 setError('Room does not exist or there was an error fetching availability.');
+            } else {
+                setError('');
             }
         }
-    }, [dispatch, selectedRoomId, roomsData]);
+    }, [selectedRoomId, roomsData]);
+
+    useEffect(() => {
+        dispatch(searchRooms(searchQuery));
+    }, [searchQuery, dispatch]);
 
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
@@ -64,18 +68,23 @@ function Booking() {
             case 'room-type':
                 setRoomType(value);
                 break;
+            case 'search-query':
+                setSearchQuery(value);
+                break;
             default:
                 break;
         }
     };
 
-    const handleRoomTypeChange = (e) => {
-        setRoomType(e.target.value);
-    };
-
     const handleCheckAvailability = (e) => {
         e.preventDefault();
-        setSelectedRoomId(roomType); 
+        const availableRoom = roomsData.find(room => room.roomType === roomType && room.availability);
+        if (availableRoom) {
+            setSelectedRoomId(availableRoom.id);
+        } else {
+            setRoomInfo(null);
+            setError('No rooms available for the selected type.');
+        }
     };
 
     const handleBooking = async (e) => {
@@ -83,10 +92,6 @@ function Booking() {
         if (roomInfo && roomInfo.availability) {
             dispatch(addBooking({ checkIn, checkOut, guests, rooms, roomType }));
         }
-    };
-
-    const handleSelectRoom = (roomId) => {
-        setSelectedRoomId(roomId);
     };
 
     return (
@@ -150,7 +155,7 @@ function Booking() {
                                     name="room-type"
                                     id="room-type"
                                     value={roomType}
-                                    onChange={handleRoomTypeChange}
+                                    onChange={handleChange}
                                 >
                                     <option value="">Select room type</option>
                                     <option value="connecting-rooms">Connecting Rooms</option>
@@ -232,33 +237,48 @@ function Booking() {
                                     <option value="no">No</option>
                                 </select>
                             </label>
+
+                            
+                                </div>
+                            </div>
+        
+                            <div className='room-list'>
+                                <h2>Available Rooms</h2>
+                                <label htmlFor="search-query">
+                                Search:
+                                <input
+                                    type="text"
+                                    name="search-query"
+                                    id="search-query"
+                                    placeholder="Search by description or type"
+                                    onChange={handleChange}
+                                    value={searchQuery}
+                               
+                                    />
+                                    </label>
+                                {roomsStatus === 'loading' && <p>Loading rooms...</p>}
+                                {roomsStatus === 'failed' && <p>Error fetching rooms: {roomsError}</p>}
+                                {roomsStatus === 'succeeded' && (
+                                    <ul>
+                                        {roomsData.map(room => (
+                                            <li key={room.id} onClick={() => handleSelectRoom(room.id)}>
+                                                <h3>{room.description}</h3>
+                                                <p>Type: {room.roomType}</p>
+                                                <p>Price: R{room.price}</p>
+                                                <p>Status: {room.availability ? 'Available' : 'Not Available'}</p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
                         </div>
-                    </div>
-
-                    <div className='room-list'>
-                        <h2>Available Rooms</h2>
-                        {roomsStatus === 'loading' && <p>Loading rooms...</p>}
-                        {roomsStatus === 'failed' && <p>Error fetching rooms: {roomsError}</p>}
-                        {roomsStatus === 'succeeded' && (
-                            <ul>
-                                {roomsData.map(room => (
-                                    <li key={room.id} onClick={() => handleSelectRoom(room.id)}>
-                                        <h3>{room.description}</h3>
-                                        <p>Type: {room.roomType}</p>
-                                        <p>Price: ${room.price}</p>
-                                        <p>Status: {room.availability ? 'Available' : 'Not Available'}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
+                    </main>
+                    <footer>
+                        <Footer />
+                    </footer>
                 </div>
-            </main>
-            <footer>
-                <Footer />
-            </footer>
-        </div>
-    );
-}
-
-export default Booking;
+            );
+        }
+        
+        export default Booking;
+        
