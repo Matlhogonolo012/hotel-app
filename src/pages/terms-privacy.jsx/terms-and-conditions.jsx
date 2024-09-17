@@ -1,5 +1,5 @@
 import React from 'react';
-import './TermsAndConditions.css';
+import '/src/pages/terms-privacy.jsx/terms-and-conditions.css';
 
 function TermsAndConditions() {
     return (
@@ -11,7 +11,7 @@ function TermsAndConditions() {
                 <section className="terms-introduction">
                     <h2>Introduction</h2>
                     <p>
-                        Welcome to [Your App Name]. These Terms and Conditions govern your use of our services. By accessing or using our services, you agree to be bound by these terms.
+                        Welcome to Harmony Heights Hotel. These Terms and Conditions govern your use of our services. By accessing or using our services, you agree to be bound by these terms.
                     </p>
                 </section>
                 <section className="terms-eligibility">
@@ -35,7 +35,7 @@ function TermsAndConditions() {
                 <section className="terms-cancellations">
                     <h2>Cancellations</h2>
                     <p>
-                        Cancellations must be made according to our cancellation policy. Failure to comply with the policy may result in charges or penalties.
+                        Cancellations must be made according to our cancellation policy. All cancellations must be made three days prior, failure to do so will result in forfeiture of booking payment.
                     </p>
                 </section>
                 <section className="terms-liability">
@@ -47,13 +47,13 @@ function TermsAndConditions() {
                 <section className="terms-governing-law">
                     <h2>Governing Law</h2>
                     <p>
-                        These terms are governed by and construed in accordance with the laws of [Your Jurisdiction]. Any disputes arising from these terms will be resolved in the courts of [Your Jurisdiction].
+                        These terms are governed by and construed in accordance with the laws of South Africa. Any disputes arising from these terms will be resolved in the courts of South Africa.
                     </p>
                 </section>
                 <section className="terms-contact">
                     <h2>Contact Us</h2>
                     <p>
-                        For any questions regarding these Terms and Conditions, please contact us at [contact email].
+                        For any questions regarding these Terms and Conditions, please contact us at HarmonyHeights@gmail.com.
                     </p>
                 </section>
             </main>

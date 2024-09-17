@@ -10,7 +10,8 @@ import AdminDashboard from "./pages/admin-panel/admin-dashboard";
 import UserDashboard from "./pages/user-panel/user-dashboard";
 import ForgotPassword from "./pages/login/forgot-password";
 import AddRoomForm from "./pages/admin-panel/add-room-admin";
-
+import TermsAndConditions from "./pages/terms-privacy.jsx/terms-and-conditions";
+import PrivacyPolicy from "./pages/terms-privacy.jsx/privacy-policy";
 
 function App() {
   
@@ -28,8 +29,9 @@ function App() {
     <Route path="*" element={<PageDoesNotExist/>}/>
     <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
     <Route path="/user-dashboard"  element={<UserDashboard/>}/>
-    <Route path="/add-room-admin"  element={<AddRoomForm/>} />
-
+    <Route path="/add-room-admin"  element={<AddRoomForm/>} />nd
+    <Route path="/terms-and-conditions" element={<TermsAndConditions/>}/>
+    <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
     </Routes>
     </BrowserRouter>
  

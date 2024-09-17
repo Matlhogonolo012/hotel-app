@@ -24,14 +24,6 @@ const RoomList = () => {
         dispatch(searchRooms(searchQuery));
     }, [searchQuery, dispatch]);
 
-    const handleRoomToggle = (roomId) => {
-        if (selectedRooms.includes(roomId)) {
-            dispatch(unselectRoom(roomId));
-        } else {
-            dispatch(selectRoom(roomId));
-        }
-    };
-
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
@@ -68,55 +60,25 @@ const RoomList = () => {
 
     return (
         <div className="room-list">
-            <input
-                type="text"
-                placeholder="Search rooms..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="search-input"
-            />
-            {filteredRooms.length > 0 ? (
-                filteredRooms.map(room => (
-                    <div key={room.id} className="room-item">
-                        <h2>{room.roomType}</h2>
-                        <p>{room.description}</p>
-                        <p>R{room.price}</p>
-                        <button
-                            onClick={() => handleRoomToggle(room.id)}
-                            className={`toggle-button ${selectedRooms.includes(room.id) ? 'selected' : ''}`}
-                        >
-                            {selectedRooms.includes(room.id) ? 'Save' : 'Edit'}
-                        </button>
-                        <button
-                            onClick={() => handleEditClick(room)}
-                            className="edit-button"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            onClick={() => handleDeleteClick(room.id)}
-                            className="delete-button"
-                        >
-                            Delete
-                        </button>
-                    </div>
-                ))
-            ) : (
-                <p>No rooms available</p>
-            )}
-
+            
             {editingRoom && (
                 <form onSubmit={handleEditSubmit} className="edit-form">
                     <h2>Edit Room</h2>
+                  
                     <label>
-                        Room Type:
-                        <input
-                            type="text"
-                            name="roomType"
-                            value={editForm.roomType}
-                            onChange={handleEditChange}
-                        />
-                    </label>
+                    Room Type:
+                    <select 
+                        name="roomType" 
+                        value={editForm.roomType}
+                        onChange={handleEditChange} 
+                        required
+                    >
+                        <option value="">Select Room Type</option>
+                        <option value="Family Suite">Family Suite</option>
+                        <option value="Connecting Rooms">Connecting Rooms</option>
+                        <option value="Deluxe Family Room">Deluxe Family Room</option>
+                    </select>
+                </label>
                     <label>
                         Description:
                         <input
@@ -139,6 +101,38 @@ const RoomList = () => {
                     <button type="button" onClick={() => setEditingRoom(null)}>Cancel</button>
                 </form>
             )}
+            <input
+                type="text"
+                placeholder="Search rooms..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="search-input"
+            />
+            {filteredRooms.length > 0 ? (
+                filteredRooms.map(room => (
+                    <div key={room.id} className="room-item">
+                        <h2>{room.roomType}</h2>
+                        <p>{room.description}</p>
+                        <p>R{room.price}</p>
+                        
+                        <button
+                            onClick={() => handleEditClick(room)}
+                            className="edit-button"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => handleDeleteClick(room.id)}
+                            className="delete-button"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                ))
+            ) : (
+                <p>No rooms available</p>
+            )}
+
         </div>
     );
 };

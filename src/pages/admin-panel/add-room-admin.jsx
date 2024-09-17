@@ -38,12 +38,6 @@ const AddRoomForm = () => {
         }
     };
 
-    const handleSearchChange = (e) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-        dispatch(searchRooms(query));
-    };
-
     return (
         <div>
             <form onSubmit={handleSubmit}>

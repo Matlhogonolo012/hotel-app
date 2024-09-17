@@ -1,5 +1,5 @@
 import React from 'react';
-import './PrivacyPolicy.css';
+import '/src/pages/terms-privacy.jsx/privacy-policy.css';
 
 function PrivacyPolicy() {
     return (
@@ -11,7 +11,7 @@ function PrivacyPolicy() {
                 <section className="privacy-introduction">
                     <h2>Introduction</h2>
                     <p>
-                        Welcome to [Your App Name]. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and disclose your information.
+                        Welcome to Harmony Heights Hotel. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and disclose your information.
                     </p>
                 </section>
                 <section className="privacy-information-collection">
@@ -35,7 +35,7 @@ function PrivacyPolicy() {
                 <section className="privacy-security">
                     <h2>Security</h2>
                     <p>
-                        We implement reasonable security measures to protect your information from unauthorized access, use, or disclosure. However, no system is completely secure, and we cannot guarantee absolute security.
+                        We implement reasonable security measures to protect your information from unauthorized access, use, or disclosure.
                     </p>
                 </section>
                 <section className="privacy-changes-to-policy">
@@ -47,7 +47,7 @@ function PrivacyPolicy() {
                 <section className="privacy-contact">
                     <h2>Contact Us</h2>
                     <p>
-                        If you have any questions about this Privacy Policy, please contact us at [contact email].
+                        If you have any questions about this Privacy Policy, please contact us at HarmonyHeigts@gmail.com.
                     </p>
                 </section>
             </main>
