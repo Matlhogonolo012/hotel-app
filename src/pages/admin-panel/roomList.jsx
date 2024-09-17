@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRooms, selectRoom, unselectRoom, searchRooms } from '/src/redux-state-management/rooms-reducer.jsx';
+import { fetchRooms, selectRoom, unselectRoom, searchRooms, updateRoom, deleteRoom } from '/src/redux-state-management/rooms-reducer.jsx';
 
 const RoomList = () => {
     const dispatch = useDispatch();
@@ -12,6 +11,8 @@ const RoomList = () => {
     const error = useSelector((state) => state.rooms.error);
 
     const [searchQuery, setSearchQuery] = useState('');
+    const [editingRoom, setEditingRoom] = useState(null);
+    const [editForm, setEditForm] = useState({ roomType: '', description: '', price: '' });
 
     useEffect(() => {
         if (status === 'idle') {
@@ -33,6 +34,33 @@ const RoomList = () => {
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
+    };
+
+    const handleEditClick = (room) => {
+        setEditingRoom(room.id);
+        setEditForm({
+            roomType: room.roomType,
+            description: room.description,
+            price: room.price,
+        });
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        dispatch(updateRoom({ ...editForm, id: editingRoom }));
+        setEditingRoom(null);
+    };
+
+    const handleDeleteClick = (roomId) => {
+        dispatch(deleteRoom(roomId));
     };
 
     if (status === 'loading') return <p>Loading...</p>;
@@ -60,15 +88,56 @@ const RoomList = () => {
                             {selectedRooms.includes(room.id) ? 'Save' : 'Edit'}
                         </button>
                         <button
-                            onClick={() => handleRoomToggle(room.id)}
-                            className={`toggle-button ${selectedRooms.includes(room.id) ? 'selected' : ''}`}
+                            onClick={() => handleEditClick(room)}
+                            className="edit-button"
                         >
-                            {selectedRooms.includes(room.id) ? 'Clear' : 'Delete'}
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => handleDeleteClick(room.id)}
+                            className="delete-button"
+                        >
+                            Delete
                         </button>
                     </div>
                 ))
             ) : (
                 <p>No rooms available</p>
+            )}
+
+            {editingRoom && (
+                <form onSubmit={handleEditSubmit} className="edit-form">
+                    <h2>Edit Room</h2>
+                    <label>
+                        Room Type:
+                        <input
+                            type="text"
+                            name="roomType"
+                            value={editForm.roomType}
+                            onChange={handleEditChange}
+                        />
+                    </label>
+                    <label>
+                        Description:
+                        <input
+                            type="text"
+                            name="description"
+                            value={editForm.description}
+                            onChange={handleEditChange}
+                        />
+                    </label>
+                    <label>
+                        Price:
+                        <input
+                            type="number"
+                            name="price"
+                            value={editForm.price}
+                            onChange={handleEditChange}
+                        />
+                    </label>
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onClick={() => setEditingRoom(null)}>Cancel</button>
+                </form>
             )}
         </div>
     );

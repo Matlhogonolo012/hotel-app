@@ -29,6 +29,26 @@ export const addRoom = createAsyncThunk('rooms/addRoom', async (newRoom, { rejec
     }
 });
 
+export const updateRoom = createAsyncThunk('rooms/updateRoom', async (room, { rejectWithValue }) => {
+    try {
+        const roomRef = doc(db, 'rooms', room.id);
+        await updateDoc(roomRef, room);
+        return room;
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const deleteRoom = createAsyncThunk('rooms/deleteRoom', async (roomId, { rejectWithValue }) => {
+    try {
+        const roomRef = doc(db, 'rooms', roomId);
+        await deleteDoc(roomRef);
+        return roomId;
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
 const roomsSlice = createSlice({
     name: 'rooms',
     initialState,
@@ -53,13 +73,14 @@ const roomsSlice = createSlice({
             state.rooms = action.payload;
             state.filteredRooms = action.payload; 
         },
-        updateRoom(state, action) {
+        updateRoomInState(state, action) {
             const index = state.rooms.findIndex(room => room.id === action.payload.id);
             if (index >= 0) {
                 state.rooms[index] = action.payload;
+                state.filteredRooms[index] = action.payload;
             }
         },
-        deleteRoom(state, action) {
+        deleteRoomFromState(state, action) {
             state.rooms = state.rooms.filter(room => room.id !== action.payload);
             state.filteredRooms = state.filteredRooms.filter(room => room.id !== action.payload);
         },
@@ -82,7 +103,7 @@ const roomsSlice = createSlice({
             .addCase(fetchRooms.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.rooms = action.payload;
-                state.filteredRooms = action.payload; // Initialize filtered rooms
+                state.filteredRooms = action.payload;
             })
             .addCase(fetchRooms.rejected, (state, action) => {
                 state.status = 'failed';
@@ -94,6 +115,20 @@ const roomsSlice = createSlice({
             })
             .addCase(addRoom.rejected, (state, action) => {
                 state.error = action.payload;
+            })
+            .addCase(updateRoom.fulfilled, (state, action) => {
+                state.rooms = state.rooms.map(room => room.id === action.payload.id ? action.payload : room);
+                state.filteredRooms = state.filteredRooms.map(room => room.id === action.payload.id ? action.payload : room);
+            })
+            .addCase(updateRoom.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+            .addCase(deleteRoom.fulfilled, (state, action) => {
+                state.rooms = state.rooms.filter(room => room.id !== action.payload);
+                state.filteredRooms = state.filteredRooms.filter(room => room.id !== action.payload);
+            })
+            .addCase(deleteRoom.rejected, (state, action) => {
+                state.error = action.payload;
             });
     }
 });
@@ -104,8 +139,8 @@ export const {
     unselectRoom,
     clearSelectedRooms,
     setRooms,
-    updateRoom,
-    deleteRoom,
+    updateRoomInState,
+    deleteRoomFromState,
     setStatus,
     searchRooms
 } = roomsSlice.actions;

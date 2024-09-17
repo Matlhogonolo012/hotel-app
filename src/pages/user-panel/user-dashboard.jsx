@@ -78,7 +78,7 @@ function UserDashboard() {
 
     if (user.uid) {
       dispatch(updateUserProfile(user.uid, formData));
-      setEditMode(false); // Exit edit mode after saving
+      setEditMode(false); 
     }
   };
 
