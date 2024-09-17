@@ -26,12 +26,12 @@ function App() {
     <Route path="/admin-registration" element={<AdminRegister/>}/>
     <Route path="/user-registration" element={<UserRegister/>}/>
     <Route path="/forgot-password" element={<ForgotPassword/>}/>
-    <Route path="*" element={<PageDoesNotExist/>}/>
     <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
     <Route path="/user-dashboard"  element={<UserDashboard/>}/>
     <Route path="/add-room-admin"  element={<AddRoomForm/>} />nd
     <Route path="/terms-and-conditions" element={<TermsAndConditions/>}/>
     <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+    <Route path="*" element={<PageDoesNotExist/>}/>
     </Routes>
     </BrowserRouter>
  

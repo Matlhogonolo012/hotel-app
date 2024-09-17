@@ -3,11 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer.jsx';
 import Logo from "../components/logo";
 import { Link } from "react-router-dom";
-import RoomList from './admin-panel/roomList'; 
 import Footer from "../components/footer";
-import "/src/pages/sidebar.css";
 import { addBooking } from '../redux-state-management/features/firestore-reducer/firestore';
-import { fetchRoomAvailability } from '/src/redux-state-management/roomsAvailability.jsx';
+import { fetchRooms } from '/src/redux-state-management/rooms-reducer.jsx'; 
+import "/src/pages/sidebar.css";
 
 function Booking() {
     const [checkIn, setCheckIn] = useState('');
@@ -22,24 +21,26 @@ function Booking() {
     const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
     const dispatch = useDispatch();
 
-    const roomAvailability = useSelector((state) => state.roomAvailability.rooms[selectedRoomId]);
-    const availabilityStatus = useSelector((state) => state.roomAvailability.status);
-    const availabilityError = useSelector((state) => state.roomAvailability.error);
+    const roomsData = useSelector((state) => state.rooms.rooms);
+    const roomsStatus = useSelector((state) => state.rooms.status);
+    const roomsError = useSelector((state) => state.rooms.error);
+
+    useEffect(() => {
+        dispatch(fetchRooms());
+    }, [dispatch]);
 
     useEffect(() => {
         if (selectedRoomId) {
-            dispatch(fetchRoomAvailability(selectedRoomId))
-                .then(response => {
-                    if (response.error) {
-                        setRoomInfo(null);
-                        setError('Room does not exist or there was an error fetching availability.');
-                    } else {
-                        setRoomInfo(response.payload);
-                        setError('');
-                    }
-                });
+            const selectedRoom = roomsData.find(room => room.id === selectedRoomId);
+            if (selectedRoom) {
+                setRoomInfo(selectedRoom);
+                setError('');
+            } else {
+                setRoomInfo(null);
+                setError('Room does not exist or there was an error fetching availability.');
+            }
         }
-    }, [dispatch, selectedRoomId]);
+    }, [dispatch, selectedRoomId, roomsData]);
 
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
@@ -162,6 +163,7 @@ function Booking() {
                             </button>
                         </fieldset>
                     </form>
+
                     <form onSubmit={handleBooking}>
                         <div className='booking-summary'>
                             <fieldset>
@@ -233,22 +235,23 @@ function Booking() {
                         </div>
                     </div>
 
-                    {/* <div className='search-form'>
-                      <RoomList onSelectRoom={handleSelectRoom} /> 
-                    </div> */}
-                    <ul>
-                    {rooms.length > 0 ? (
-                        rooms.map(room => (
-                            <li key={room.id}>
-                                <h3>{room.description}</h3>
-                                <p>Type: {room.roomType}</p>
-                                <p>Price: ${room.price}</p>
-                            </li>
-                        ))
-                    ) : (
-                        <p>No rooms found</p>
-                    )}
-                </ul>
+                    <div className='room-list'>
+                        <h2>Available Rooms</h2>
+                        {roomsStatus === 'loading' && <p>Loading rooms...</p>}
+                        {roomsStatus === 'failed' && <p>Error fetching rooms: {roomsError}</p>}
+                        {roomsStatus === 'succeeded' && (
+                            <ul>
+                                {roomsData.map(room => (
+                                    <li key={room.id} onClick={() => handleSelectRoom(room.id)}>
+                                        <h3>{room.description}</h3>
+                                        <p>Type: {room.roomType}</p>
+                                        <p>Price: ${room.price}</p>
+                                        <p>Status: {room.availability ? 'Available' : 'Not Available'}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 </div>
             </main>
             <footer>
