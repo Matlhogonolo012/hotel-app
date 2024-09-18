@@ -6,10 +6,12 @@ const AddRoomForm = () => {
     const dispatch = useDispatch();
     const rooms = useSelector(state => state.rooms.filteredRooms); 
     const [room, setRoom] = useState({
+        title:"",
+        image: null,
         description: '',
         price: '',
         roomType: '',
-        availability: true // Default to available
+        availability: true 
     });
     const [errors, setErrors] = useState({});
 
@@ -17,7 +19,7 @@ const AddRoomForm = () => {
         const { name, value } = e.target;
         setRoom(prevRoom => ({
             ...prevRoom,
-            [name]: name === 'availability' ? value === 'true' : value // Convert string to boolean
+            [name]: name === 'availability' ? value === 'true' : value
         }));
     };
 
@@ -36,7 +38,7 @@ const AddRoomForm = () => {
             setErrors(validationErrors);
         } else {
             dispatch(addRoom(room));
-            setRoom({ description: '', price: '', roomType: '', availability: true }); // Reset form
+            setRoom({title: '', image: null, description: '', price: '', roomType: '', availability: true });
             setErrors({});
             console.log(room);
         }
@@ -45,6 +47,12 @@ const AddRoomForm = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                <label> Title:
+                <input type="text" required name= "title" value={room.title} onChange={handleChange} />
+
+                </label>
+                {errors.title && <p className="error">{errors.title}</p>}
+                <label >Image: <input type="file"/> </label>
                 <label>
                     Description:
                     <input 

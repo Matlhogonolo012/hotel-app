@@ -93,6 +93,7 @@ function UserLogin() {
               placeholder="Password"
               value={password}
               onChange={handleChange}
+              
             />
             <button type="submit" >
               {loading ? "Logging in..." : "Login"}

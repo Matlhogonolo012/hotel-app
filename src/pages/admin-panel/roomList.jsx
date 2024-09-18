@@ -10,7 +10,7 @@ const RoomList = () => {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [editingRoom, setEditingRoom] = useState(null);
-    const [editForm, setEditForm] = useState({ roomType: '', description: '', price: '', availability: false });
+    const [editForm, setEditForm] = useState({ roomType: '', image: null, description: '', price: '', availability: false });
 
     useEffect(() => {
         if (status === 'idle') {
@@ -30,6 +30,7 @@ const RoomList = () => {
         setEditingRoom(room.id);
         setEditForm({
             roomType: room.roomType,
+            image: room.image,
             description: room.description,
             price: room.price,
             availability: room.availability,
@@ -118,6 +119,7 @@ const RoomList = () => {
                 filteredRooms.map(room => (
                     <div key={room.id} className="room-item">
                         <h2>{room.roomType}</h2>
+                        {room.image}
                         <p>{room.description}</p>
                         <p>R{room.price}</p>
                         <p>Status: {room.availability ? 'Available' : 'Not Available'}</p>

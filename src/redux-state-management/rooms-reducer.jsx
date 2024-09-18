@@ -6,12 +6,11 @@ const initialState = {
     rooms: [],
     selectedRooms: [],
     filteredRooms: [],
-    availability: {}, // New field for availability status
+    availability: {}, 
     status: 'idle',
     error: null,
 };
 
-// Fetch rooms from Firestore
 export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async (_, { rejectWithValue }) => {
     try {
         const querySnapshot = await getDocs(collection(db, 'rooms'));
@@ -22,7 +21,6 @@ export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async (_, { rejec
     }
 });
 
-// Add new room
 export const addRoom = createAsyncThunk('rooms/addRoom', async (newRoom, { rejectWithValue }) => {
     try {
         const docRef = await addDoc(collection(db, 'rooms'), newRoom);
@@ -32,7 +30,6 @@ export const addRoom = createAsyncThunk('rooms/addRoom', async (newRoom, { rejec
     }
 });
 
-// Update room
 export const updateRoom = createAsyncThunk('rooms/updateRoom', async (room, { rejectWithValue }) => {
     try {
         const roomRef = doc(db, 'rooms', room.id);
@@ -43,7 +40,6 @@ export const updateRoom = createAsyncThunk('rooms/updateRoom', async (room, { re
     }
 });
 
-// Delete room
 export const deleteRoom = createAsyncThunk('rooms/deleteRoom', async (roomId, { rejectWithValue }) => {
     try {
         const roomRef = doc(db, 'rooms', roomId);
