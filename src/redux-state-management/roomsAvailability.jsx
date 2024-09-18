@@ -8,16 +8,35 @@ const initialState = {
     error: null,
 };
 
-export const checkRoomAvailability = createAsyncThunk('roomAvailability/checkRoomAvailability', async ({ roomId, date }, { rejectWithValue }) => {
-    try {
-        const q = query(collection(db, 'bookings'), where('roomId', '==', roomId), where('date', '==', date));
-        const querySnapshot = await getDocs(q);
-        const isAvailable = querySnapshot.empty;
-        return { roomId, date, isAvailable };
-    } catch (error) {
-        return rejectWithValue(error.message);
+export const checkRoomAvailability = createAsyncThunk(
+    'rooms/checkRoomAvailability',
+    async ({ roomId, checkIn, checkOut }, { rejectWithValue }) => {
+        try {
+            const bookingsRef = collection(db, "BookingData");
+            const q = query(bookingsRef, where("roomId", "==", roomId));
+            const querySnapshot = await getDocs(q);
+
+            let isAvailable = true;
+
+            querySnapshot.forEach((doc) => {
+                const booking = doc.data();
+                const bookedCheckIn = new Date(booking.checkIn);
+                const bookedCheckOut = new Date(booking.checkOut);
+
+                if (
+                    (new Date(checkIn) < bookedCheckOut && new Date(checkOut) > bookedCheckIn)
+                ) {
+                    isAvailable = false;
+                }
+            });
+
+            return { roomId, isAvailable };
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
     }
-});
+);
+
 
 const roomAvailabilitySlice = createSlice({
     name: 'roomAvailability',
@@ -34,11 +53,11 @@ const roomAvailabilitySlice = createSlice({
             })
             .addCase(checkRoomAvailability.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                const { roomId, date, isAvailable } = action.payload;
+                const { roomId, isAvailable } = action.payload;
                 if (!state.availability[roomId]) {
                     state.availability[roomId] = {};
                 }
-                state.availability[roomId][date] = isAvailable;
+                state.availability[roomId].isAvailable = isAvailable;
             })
             .addCase(checkRoomAvailability.rejected, (state, action) => {
                 state.status = 'failed';

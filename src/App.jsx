@@ -13,6 +13,7 @@ import AddRoomForm from "./pages/admin-panel/add-room-admin";
 import TermsAndConditions from "./pages/terms-privacy.jsx/terms-and-conditions";
 import PrivacyPolicy from "./pages/terms-privacy.jsx/privacy-policy";
 import UserRating from "./pages/user-panel/ratings";
+import PayPal from "./pages/paypal";
 
 function App() {
   
@@ -34,8 +35,9 @@ function App() {
     <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
     <Route path="/ratings" element={<UserRating/>}/>
     <Route path="*" element={<PageDoesNotExist/>}/>
-    
-    </Routes>
+    <Route path="/paypal" element={<PayPal/>}/>
+
+    </Routes >
     </BrowserRouter>
  
   </div>

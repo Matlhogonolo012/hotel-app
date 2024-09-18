@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addRoom, searchRooms } from '/src/redux-state-management/rooms-reducer.jsx';
+import { addRoom } from '/src/redux-state-management/rooms-reducer.jsx';
 
 const AddRoomForm = () => {
     const dispatch = useDispatch();
@@ -8,13 +8,17 @@ const AddRoomForm = () => {
     const [room, setRoom] = useState({
         description: '',
         price: '',
-        roomType: ''
+        roomType: '',
+        availability: true // Default to available
     });
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setRoom(prevRoom => ({ ...prevRoom, [name]: value }));
+        setRoom(prevRoom => ({
+            ...prevRoom,
+            [name]: name === 'availability' ? value === 'true' : value // Convert string to boolean
+        }));
     };
 
     const validate = () => {
@@ -32,7 +36,7 @@ const AddRoomForm = () => {
             setErrors(validationErrors);
         } else {
             dispatch(addRoom(room));
-            setRoom({ description: '', price: '', roomType: '' });
+            setRoom({ description: '', price: '', roomType: '', availability: true }); // Reset form
             setErrors({});
             console.log(room);
         }
@@ -81,9 +85,21 @@ const AddRoomForm = () => {
                 </label>
                 {errors.roomType && <p className="error">{errors.roomType}</p>}
                 
+                <label>
+                    Availability:
+                    <select 
+                        name="availability" 
+                        value={room.availability ? 'true' : 'false'} 
+                        onChange={handleChange} 
+                        required
+                    >
+                        <option value="true">Available</option>
+                        <option value="false">Not Available</option>
+                    </select>
+                </label>
+
                 <button type="submit">Add Room</button>
             </form>
-            
         </div>
     );
 };

@@ -10,7 +10,7 @@ const RoomList = () => {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [editingRoom, setEditingRoom] = useState(null);
-    const [editForm, setEditForm] = useState({ roomType: '', description: '', price: '' });
+    const [editForm, setEditForm] = useState({ roomType: '', description: '', price: '', availability: false });
 
     useEffect(() => {
         if (status === 'idle') {
@@ -32,14 +32,15 @@ const RoomList = () => {
             roomType: room.roomType,
             description: room.description,
             price: room.price,
+            availability: room.availability,
         });
     };
 
     const handleEditChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setEditForm((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: type === 'checkbox' ? checked : value,
         }));
     };
 
@@ -58,25 +59,23 @@ const RoomList = () => {
 
     return (
         <div className="room-list">
-            
             {editingRoom && (
                 <form onSubmit={handleEditSubmit} className="edit-form">
                     <h2>Edit Room</h2>
-                  
                     <label>
-                    Room Type:
-                    <select 
-                        name="roomType" 
-                        value={editForm.roomType}
-                        onChange={handleEditChange} 
-                        required
-                    >
-                        <option value="">Select Room Type</option>
-                        <option value="Family Suite">Family Suite</option>
-                        <option value="Connecting Rooms">Connecting Rooms</option>
-                        <option value="Deluxe Family Room">Deluxe Family Room</option>
-                    </select>
-                </label>
+                        Room Type:
+                        <select 
+                            name="roomType" 
+                            value={editForm.roomType}
+                            onChange={handleEditChange} 
+                            required
+                        >
+                            <option value="">Select Room Type</option>
+                            <option value="Family Suite">Family Suite</option>
+                            <option value="Connecting Rooms">Connecting Rooms</option>
+                            <option value="Deluxe Family Room">Deluxe Family Room</option>
+                        </select>
+                    </label>
                     <label>
                         Description:
                         <input
@@ -92,6 +91,15 @@ const RoomList = () => {
                             type="number"
                             name="price"
                             value={editForm.price}
+                            onChange={handleEditChange}
+                        />
+                    </label>
+                    <label>
+                        Availability:
+                        <input
+                            type="checkbox"
+                            name="availability"
+                            checked={editForm.availability}
                             onChange={handleEditChange}
                         />
                     </label>
@@ -112,7 +120,7 @@ const RoomList = () => {
                         <h2>{room.roomType}</h2>
                         <p>{room.description}</p>
                         <p>R{room.price}</p>
-                        
+                        <p>Status: {room.availability ? 'Available' : 'Not Available'}</p>
                         <button
                             onClick={() => handleEditClick(room)}
                             className="edit-button"
@@ -130,7 +138,6 @@ const RoomList = () => {
             ) : (
                 <p>No rooms available</p>
             )}
-
         </div>
     );
 };

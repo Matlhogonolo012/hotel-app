@@ -3,6 +3,7 @@ import { registerUser } from "../../redux-state-management/features/authenticati
 import Logo from "../../components/logo";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function UserRegister() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,8 @@ function UserRegister() {
   const [checkbox, setCheckbox] = useState(false);
   const [role, setRole] = useState("user");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
   const { loading, error: authError } = useSelector((state) => state.userAuthentication);
@@ -68,20 +71,10 @@ function UserRegister() {
       return;
     }
 
-    if (!role) {
-      setError("Please select a role.");
-      return;
-    }
-
     try {
       await dispatch(registerUser({ email, password, username, role })).unwrap();
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      setCheckbox(false);
-      setRole("user");
       alert("Registration successful!");
+      navigate('/user-login')
     } catch (err) {
       setError("Registration failed. Please try again.");
     }
@@ -105,9 +98,7 @@ function UserRegister() {
               <label htmlFor="username">Username</label>
               <input
                 onChange={handleChange}
-                className="username"
                 type="text"
-                placeholder="Username"
                 name="username"
                 id="username"
                 autoComplete="off"
@@ -118,9 +109,7 @@ function UserRegister() {
               <label htmlFor="email">Email</label>
               <input
                 onChange={handleChange}
-                className="email"
                 type="email"
-                placeholder="Email"
                 name="email"
                 id="email"
                 autoComplete="off"
@@ -131,9 +120,7 @@ function UserRegister() {
               <label htmlFor="password">Password</label>
               <input
                 onChange={handleChange}
-                className="password"
                 type="password"
-                placeholder="Password"
                 name="password"
                 id="password"
                 autoComplete="off"
@@ -144,9 +131,7 @@ function UserRegister() {
               <label htmlFor="confirmPassword">Confirm Password</label>
               <input
                 onChange={handleChange}
-                className="confirmPassword"
                 type="password"
-                placeholder="Confirm Password"
                 name="confirmPassword"
                 id="confirmPassword"
                 autoComplete="off"
@@ -178,14 +163,13 @@ function UserRegister() {
             </div>
             {role === "user" && (
               <div>
-                <label htmlFor="checkbox">
+                <label>
                   <input
                     type="checkbox"
                     name="checkbox"
-                    id="checkbox"
                     checked={checkbox}
                     onChange={handleChange}
-                  /> I agree to the <Link to="/terms">Terms and Conditions</Link> and I am at least 18 years of age.
+                  /> I agree to the <Link to="/terms">Terms and Conditions</Link>.
                 </label>
               </div>
             )}

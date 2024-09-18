@@ -6,10 +6,12 @@ const initialState = {
     rooms: [],
     selectedRooms: [],
     filteredRooms: [],
+    availability: {}, // New field for availability status
     status: 'idle',
     error: null,
 };
 
+// Fetch rooms from Firestore
 export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async (_, { rejectWithValue }) => {
     try {
         const querySnapshot = await getDocs(collection(db, 'rooms'));
@@ -20,6 +22,7 @@ export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async (_, { rejec
     }
 });
 
+// Add new room
 export const addRoom = createAsyncThunk('rooms/addRoom', async (newRoom, { rejectWithValue }) => {
     try {
         const docRef = await addDoc(collection(db, 'rooms'), newRoom);
@@ -29,6 +32,7 @@ export const addRoom = createAsyncThunk('rooms/addRoom', async (newRoom, { rejec
     }
 });
 
+// Update room
 export const updateRoom = createAsyncThunk('rooms/updateRoom', async (room, { rejectWithValue }) => {
     try {
         const roomRef = doc(db, 'rooms', room.id);
@@ -39,11 +43,22 @@ export const updateRoom = createAsyncThunk('rooms/updateRoom', async (room, { re
     }
 });
 
+// Delete room
 export const deleteRoom = createAsyncThunk('rooms/deleteRoom', async (roomId, { rejectWithValue }) => {
     try {
         const roomRef = doc(db, 'rooms', roomId);
         await deleteDoc(roomRef);
         return roomId;
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const checkRoomAvailability = createAsyncThunk('rooms/checkRoomAvailability', async ({ roomId, checkIn, checkOut }, { rejectWithValue }) => {
+    try {
+
+        const isAvailable = true; 
+        return { roomId, isAvailable };
     } catch (error) {
         return rejectWithValue(error.message);
     }
@@ -92,9 +107,8 @@ const roomsSlice = createSlice({
             state.filteredRooms = state.rooms.filter(room =>
                 (room.description && room.description.toLowerCase().includes(query)) ||
                 (room.roomType && room.roomType.toLowerCase().includes(query))
-              
             );
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -130,6 +144,13 @@ const roomsSlice = createSlice({
             })
             .addCase(deleteRoom.rejected, (state, action) => {
                 state.error = action.payload;
+            })
+            .addCase(checkRoomAvailability.fulfilled, (state, action) => {
+                const { roomId, isAvailable } = action.payload;
+                state.availability[roomId] = isAvailable;
+            })
+            .addCase(checkRoomAvailability.rejected, (state, action) => {
+                state.error = action.payload;
             });
     }
 });
@@ -143,7 +164,7 @@ export const {
     updateRoomInState,
     deleteRoomFromState,
     setStatus,
-    searchRooms
+    searchRooms,
 } = roomsSlice.actions;
 
 export default roomsSlice.reducer;
