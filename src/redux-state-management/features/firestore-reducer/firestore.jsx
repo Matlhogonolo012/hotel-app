@@ -33,12 +33,11 @@ export const addBooking = (bookingData) => async (dispatch) => {
     try {
         console.log("Booking data: ", bookingData);
 
-        // Add booking to BookingData collection
+       
         const bookingCollection = collection(db, "BookingData");
         const docRef = await addDoc(bookingCollection, bookingData);
         console.log("Document written with ID: ", docRef.id);
 
-        // Update the corresponding room's availability
         const roomRef = doc(db, "rooms", bookingData.roomId);
         await updateDoc(roomRef, { isAvailable: false }); 
         console.log("Room availability updated");

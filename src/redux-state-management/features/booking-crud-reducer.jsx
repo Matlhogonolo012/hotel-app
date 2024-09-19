@@ -1,4 +1,3 @@
-// src/features/bookingSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '/src/config/firebase.jsx';

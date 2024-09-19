@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addRoom } from '/src/redux-state-management/rooms-reducer.jsx';
+import { useDispatch } from 'react-redux';
+import { addRoom } from '/src/redux-state-management/features/rooms-reducer.jsx';
+import '/src/pages/admin-panel/add-room-admin.css'
 
 const AddRoomForm = () => {
     const dispatch = useDispatch();
-    const rooms = useSelector(state => state.rooms.filteredRooms); 
     const [room, setRoom] = useState({
-        title:"",
+        title: "",
         image: null,
         description: '',
         price: '',
         roomType: '',
-        availability: true 
+        availability: true
     });
     const [errors, setErrors] = useState({});
 
@@ -38,51 +38,74 @@ const AddRoomForm = () => {
             setErrors(validationErrors);
         } else {
             dispatch(addRoom(room));
-            setRoom({title: '', image: null, description: '', price: '', roomType: '', availability: true });
+            setRoom({ title: '', image: null, description: '', price: '', roomType: '', availability: true });
             setErrors({});
-            console.log(room);
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label> Title:
-                <input type="text" required name= "title" value={room.title} onChange={handleChange} />
+        <div className="add-room-form">
+            <form onSubmit={handleSubmit} className="form">
+                <div className="form-group">
+                    <label htmlFor="title">Title:</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={room.title}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                    {errors.title && <p className="error-message">{errors.title}</p>}
+                </div>
 
-                </label>
-                {errors.title && <p className="error">{errors.title}</p>}
-                <label >Image: <input type="file"/> </label>
-                <label>
-                    Description:
-                    <input 
-                        type="text" 
-                        name="description" 
-                        value={room.description} 
-                        onChange={handleChange} 
-                        required 
+                <div className="form-group">
+                    <label htmlFor="image">Image:</label>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        className="form-control"
                     />
-                </label>
-                {errors.description && <p className="error">{errors.description}</p>}
-                
-                <label>
-                    Price:
-                    <input 
-                        type="number" 
-                        name="price" 
-                        value={room.price} 
-                        onChange={handleChange} 
-                        required 
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="description">Description:</label>
+                    <input
+                        type="text"
+                        id="description"
+                        name="description"
+                        value={room.description}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
                     />
-                </label>
-                {errors.price && <p className="error">{errors.price}</p>}
-                
-                <label>
-                    Room Type:
-                    <select 
-                        name="roomType" 
-                        value={room.roomType} 
-                        onChange={handleChange} 
+                    {errors.description && <p className="error-message">{errors.description}</p>}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="price">Price:</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        value={room.price}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                    {errors.price && <p className="error-message">{errors.price}</p>}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="roomType">Room Type:</label>
+                    <select
+                        id="roomType"
+                        name="roomType"
+                        value={room.roomType}
+                        onChange={handleChange}
+                        className="form-control"
                         required
                     >
                         <option value="">Select Room Type</option>
@@ -90,23 +113,25 @@ const AddRoomForm = () => {
                         <option value="Connecting Rooms">Connecting Rooms</option>
                         <option value="Deluxe Family Room">Deluxe Family Room</option>
                     </select>
-                </label>
-                {errors.roomType && <p className="error">{errors.roomType}</p>}
-                
-                <label>
-                    Availability:
-                    <select 
-                        name="availability" 
-                        value={room.availability ? 'true' : 'false'} 
-                        onChange={handleChange} 
+                    {errors.roomType && <p className="error-message">{errors.roomType}</p>}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="availability">Availability:</label>
+                    <select
+                        id="availability"
+                        name="availability"
+                        value={room.availability ? 'true' : 'false'}
+                        onChange={handleChange}
+                        className="form-control"
                         required
                     >
                         <option value="true">Available</option>
                         <option value="false">Not Available</option>
                     </select>
-                </label>
+                </div>
 
-                <button type="submit">Add Room</button>
+                <button type="submit" className="submit-button">Add Room</button>
             </form>
         </div>
     );

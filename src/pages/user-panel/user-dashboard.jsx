@@ -1,46 +1,80 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { setUser, logoutUser } from '../../redux-state-management/features/authentication-reducer';
+import { useNavigate } from 'react-router-dom';
+import { getAuth, signOut } from 'firebase/auth';
+import UserRating from './ratings';
+import '/src/pages/user-panel/use-dashboard.css'
 
 const UserProfile = () => {
-  const { uid } = useSelector((state) => state.userAuthorisation.user);
-  const [userData, setUserData] = useState(null);
+  const dispatch = useDispatch();
+  const { uid, email, username, role } = useSelector((state) => state.userAuthentication.user);
+  
   const [additionalData, setAdditionalData] = useState({
     name: '',
     surname: '',
     dob: '',
-    gender: '',
+    gender: 'Other',
     nationality: '',
     id: '',
     address: '',
     phoneNumber: ''
   });
+  
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (uid) {
-        const userDoc = await getDoc(doc(db, 'users', uid));
-        if (userDoc.exists()) {
-          setUserData(userDoc.data());
-          setAdditionalData({
-            name: userDoc.data().name || '',
-            surname: userDoc.data().surname || '',
-            dob: userDoc.data().dob || '',
-            gender: userDoc.data().gender || '',
-            nationality: userDoc.data().nationality || '',
-            id: userDoc.data().id || '',
-            address: userDoc.data().address || '',
-            phoneNumber: userDoc.data().phoneNumber || ''
-          });
+        try {
+          const userDoc = await getDoc(doc(db, 'users', uid));
+          if (userDoc.exists()) {
+            const data = userDoc.data();
+            dispatch(setUser({ username: data.username, role: data.role }));
+            setAdditionalData({
+              name: data.name || '',
+              surname: data.surname || '',
+              dob: data.dob ? data.dob.toDate().toISOString().split('T')[0] : '',
+              gender: data.gender || 'Other',
+              nationality: data.nationality || '',
+              id: data.id || '',
+              address: data.address || '',
+              phoneNumber: data.phoneNumber || ''
+            });
+          } else {
+            setError('User not found.');
+          }
+        } catch (err) {
+          setError('Failed to fetch user data.');
+        } finally {
+          setLoading(false);
         }
+      } else {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [uid]);
+  }, [uid, dispatch]);
+
+  const validate = () => {
+    const errors = {};
+    if (!additionalData.name) errors.name = "Name is required.";
+    if (!additionalData.surname) errors.surname = "Surname is required.";
+    if (!additionalData.dob) errors.dob = "Date of Birth is required.";
+    if (!additionalData.gender) errors.gender = "Gender is required.";
+    if (!additionalData.nationality) errors.nationality = "Nationality is required.";
+    if (!additionalData.id) errors.id = "ID is required.";
+    if (!additionalData.address) errors.address = "Address is required.";
+    if (!additionalData.phoneNumber) errors.phoneNumber = "Phone Number is required.";
+
+    return errors;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,96 +86,96 @@ const UserProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const errors = validate();
+    
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+    setValidationErrors({});
+  
     if (uid) {
-      await setDoc(doc(db, 'users', uid), additionalData, { merge: true });
+      try {
+        const dobDate = new Date(additionalData.dob);
+        if (isNaN(dobDate.getTime())) {
+          setError('Invalid date of birth.');
+          return;
+        }
+
+        const userData = {
+          ...additionalData,
+          dob: dobDate
+        };
+  
+        await setDoc(doc(db, 'users', uid), userData, { merge: true });
+        setSuccess("Profile updated successfully!");
+        console.log("User profile saved:", userData);
+        setTimeout(() => setSuccess(''), 3000);
+      } catch (err) {
+        console.error('Error updating profile:', err);
+        setError('Failed to update profile. Please try again.');
+      }
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      dispatch(logoutUser());
+      console.log("User logged out successfully.");
+      navigate('/user-login'); 
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  if (loading) return <div className="loading">Loading...</div>;
+  if (error) return <div className="error">{error}</div>;
 
   return (
-    <div>
-      <h1>User Profile</h1>
-      <p>Email: {userData.email}</p>
-      <p>Username: {userData.username}</p>
-      <p>Role: {userData.role}</p>
+    <div className="user-profile">
+      <header className="user-profile-header">
+        <h1>User Profile</h1>
+      </header>
+      <div className="user-profile-info">
+        <p>Email: {email}</p>
+        <p>Username: {username}</p>
+        <p>Role: {role}</p>
+        <button className="logout-button" onClick={handleLogout}>Logout</button>
 
-      <h2>Edit Additional Information</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={additionalData.name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Surname:</label>
-          <input
-            type="text"
-            name="surname"
-            value={additionalData.surname}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Date of Birth:</label>
-          <input
-            type="date"
-            name="dob"
-            value={additionalData.dob}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Gender:</label>
-          <input
-            type="text"
-            name="gender"
-            value={additionalData.gender}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Nationality:</label>
-          <input
-            type="text"
-            name="nationality"
-            value={additionalData.nationality}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>ID:</label>
-          <input
-            type="text"
-            name="id"
-            value={additionalData.id}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={additionalData.address}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Phone Number:</label>
-          <input
-            type="text"
-            name="phoneNumber"
-            value={additionalData.phoneNumber}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Save</button>
-      </form>
+        {success && <div className="success-message">{success}</div>}
+
+        <h2>Edit Additional Information</h2>
+        <form className="user-profile-form" onSubmit={handleSubmit}>
+          {Object.entries(additionalData).map(([key, value]) => (
+            <div className="form-group" key={key}>
+              <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1)}:</label>
+              {key === 'gender' ? (
+                <select name={key} id={key} value={value} onChange={handleChange}>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              ) : (
+                <input
+                  type={key === 'dob' ? 'date' : 'text'}
+                  name={key}
+                  id={key}
+                  value={value}
+                  onChange={handleChange}
+                />
+              )}
+              {validationErrors[key] && <div className="validation-error">{validationErrors[key]}</div>}
+            </div>
+          ))}
+          <button type="submit">Save</button>
+        </form>
+
+              </div>
+              <UserRating/>
     </div>
   );
 };

@@ -10,7 +10,8 @@ export const fetchUserRole = createAsyncThunk(
       if (userDoc.exists()) {
         return userDoc.data().role;
       } else {
-        throw new Error('User not found');
+       
+        return rejectWithValue('User not found');
       }
     } catch (error) {
       return rejectWithValue(error.message);
@@ -21,7 +22,7 @@ export const fetchUserRole = createAsyncThunk(
 const userRoleSlice = createSlice({
   name: 'userAuthorization',
   initialState: {
-    role: null,
+    role: null, 
     loading: false,
     error: null,
   },
@@ -30,15 +31,15 @@ const userRoleSlice = createSlice({
     builder
       .addCase(fetchUserRole.pending, (state) => {
         state.loading = true;
-        state.error = null;
+        state.error = null; 
       })
       .addCase(fetchUserRole.fulfilled, (state, action) => {
         state.loading = false;
-        state.role = action.payload;
+        state.role = action.payload; 
       })
       .addCase(fetchUserRole.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload; 
       });
   },
 });
