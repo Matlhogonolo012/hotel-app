@@ -1,82 +1,96 @@
-import { Link,useNavigate } from "react-router-dom";
-import Footer from "../components/footer";
-import Rooms from "../components/rooms";
-import Logo from "../components/logo";
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Footer from '../components/footer';
+import Rooms from '../components/rooms';
+import Logo from '../components/logo';
+import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer.jsx';
+import '/src/pages/sidebar.css';
+import '/src/pages/deafault.css'; 
 
 function Default() {
+  const dispatch = useDispatch();
+  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+
+  const handleSidebarToggle = () => {
+    dispatch(toggleSidebar());
+  };
+
   return (
     <div>
       <header>
-        <div>
-          <p>Book by phone: 081 368 4688</p>
-          <img src="/src/assets/icons/whatsapp-business-stroke-rounded.svg" alt="whatsapp-business" />
+        <div className="contact-info">
+          <p>Book by phone: 081 368 4688</p> OR click icon
+          <Link to="https://wa.me/qr/YTSZ7HS4JE4QL1">
+            <img src="/src/assets/icons/whatsapp-business-stroke-rounded.svg" alt="whatsapp-business" />
+          </Link>
         </div>
-        <div>
+        <div className="nav-container">
           <nav>
             <Logo />
-
             <Link to="/">Home</Link>
-
-            <button><Link to="/booking">
-            Book Now
-            </Link></button>
             <button>
-              <img
-                src="/src/assets/icons/user-circle-stroke-rounded.svg"
-                alt="user"
-              />
-              <img
-                src="/src/assets/icons/menu-01-stroke-rounded.svg"
-                alt="menu"
-              />
+              <Link to="/booking">Book Now</Link>
             </button>
+            <button className="sidebar-toggle" onClick={handleSidebarToggle}>
+              <img src="/src/assets/icons/user-circle-stroke-rounded.svg" alt="user" />
+              <img src="/src/assets/icons/menu-01-stroke-rounded.svg" alt="menu" />
+            </button>
+            <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+              <button onClick={handleSidebarToggle} className="close-sidebar">
+                <img src="/src/assets/icons/cancel-circle-stroke-rounded.svg" alt="cancel" />
+              </button>
+              <ul>
+                <h3>Login as:</h3>
+                <li>
+                  <Link to="/user-login">User</Link>
+                </li>
+                <li>
+                  <Link to="/admin-login">Admin</Link>
+                </li>
+              </ul>
+            </div>
+            <div className="user-auth-buttons">
+              <Link to="/user-login" className="auth-button">Login</Link>
+              <Link to="/user-register" className="auth-button">Register</Link>
+            </div>
           </nav>
         </div>
       </header>
 
       <main>
-        <div>
+        <div className="hero-image">
           <img
             src="/src/assets/hotel-app-images/hotel-building.jpg"
-            alt="hote-building"
+            alt="hotel-building"
             width="1320"
             height="466"
           />
         </div>
-        <div>
+        <div className="hero-text">
           <p> AT HARMONY HEIGHTS</p>
           <h2>Best Value Is Guaranteed</h2>
         </div>
 
-        <div>
-          <div>
-            <img
-              src="/src/assets/icons/award-02-stroke-rounded.svg"
-              alt="award"
-            />
-            <h4> Price Match Promise</h4>
+        <div className="features">
+          <div className="feature">
+            <img src="/src/assets/icons/award-02-stroke-rounded.svg" alt="award" />
+            <h4>Price Match Promise</h4>
             <p>
               We're confident our rates are the best in the market. If you find
               a lower price from another provider, we'll match it and give you
               twice the difference. Terms and conditions apply.
             </p>
           </div>
-          <div>
-            <img
-              src="/src/assets/icons/ticket-star-stroke-rounded.svg"
-              alt="award-icon"
-            />
+          <div className="feature">
+            <img src="/src/assets/icons/ticket-star-stroke-rounded.svg" alt="award-icon" />
             <h4>Complimentary Facilities Access Pass</h4>
             <p>
               This pass grants all guests in your unit unlimited access to the
               listed facilities throughout your entire stay.
             </p>
           </div>
-          <div>
-            <img
-              src="/src/assets/icons/building-06-stroke-rounded.svg"
-              alt="building"
-            />
+          <div className="feature">
+            <img src="/src/assets/icons/building-06-stroke-rounded.svg" alt="building" />
             <h4>Charming Pretoria Locale</h4>
             <p>
               Located in the cozy heart of Pretoria, Harmony Heights offers
@@ -85,20 +99,19 @@ function Default() {
               environment.
             </p>
           </div>
-          <img
-            src="/src/assets/icons/user-group-stroke-rounded.svg"
-            alt="group"
-          />
-          <h4>An Unforgettable Family Retreat</h4>
-          <p>
-            Perfect for families, Harmony Heights provides a cozy escape with
-            beautiful views of Pretoria, including the Union Buildings and local
-            vendors selling unique items. Enjoy easy access to these attractions
-            for a memorable getaway.
-          </p>
+          <div className="feature">
+            <img src="/src/assets/icons/user-group-stroke-rounded.svg" alt="group" />
+            <h4>An Unforgettable Family Retreat</h4>
+            <p>
+              Perfect for families, Harmony Heights provides a cozy escape with
+              beautiful views of Pretoria, including the Union Buildings and local
+              vendors selling unique items. Enjoy easy access to these attractions
+              for a memorable getaway.
+            </p>
+          </div>
         </div>
 
-        <div>
+        <div className="location-info">
           <img
             src="/src/assets/hotel-app-images/city.jpg"
             alt="city"
@@ -119,24 +132,47 @@ function Default() {
             access to these unique local attractions.
           </p>
         </div>
-        <div>
+
+        <div className="facilities">
           <h2>OUR ROOMS</h2>
+          <Rooms />
         </div>
-        <Rooms/>
-        <div>
+
+        <div className="facilities">
+          <h2>FACILITIES</h2>
+          <div className="facility">
+            <p>Indoor Swimming Pool</p>
+            <img src="/src/assets/hotel-app-images/indoor-pool.jpg" alt="pool" width="619" height="416" />
+          </div>
+          <div className="facility">
+            <p>Spa</p>
+            <img src="/src/assets/hotel-app-images/spa.jpg" alt="spa" width="619" height="416" />
+          </div>
+          <div className="facility">
+            <p>Kids Play Area</p>
+            <img src="/src/assets/hotel-app-images/playarea.jpg" alt="play-area" width="619" height="416" />
+          </div>
+          <div className="facility">
+            <p>Laundry</p>
+            <img src="/src/assets/hotel-app-images/laundry.jpg" alt="laundry" width="619" height="416" />
+          </div>
+          <div className="facility">
+            <p>Restaurant</p>
+            <img src="/src/assets/hotel-app-images/restaurant.jpg" alt="restaurant" width="619" height="416" />
+          </div>
+          <div className="facility">
+            <p>Gym</p>
+            <img src="/src/assets/hotel-app-images/gym.jpg" alt="gym" width="619" height="416" />
+          </div>
+        </div>
+
+        <div className="ratings">
           <h2>RATINGS</h2>
-        </div>
-        <div>
-          <div>
-            <img
-              src="/src/assets/icons/16231558095-star-rating.svg"
-              alt="star-ratings"
-              width="70"
-              height="70"
-            />
+          <div className="rating">
+            <img src="/src/assets/icons/16231558095-star-rating.svg" alt="star-ratings" width="70" height="70" />
             <p>4.5 - EXCELLENT</p>
           </div>
-          <div>
+          <div className="review">
             <p>"Fantastic for Families!"</p>
             <p>
               We loved our stay at Harmony Heights! The Kids' Club kept our kids
@@ -147,7 +183,7 @@ function Default() {
             </p>
             <p>— Jessica L., Pretoria</p>
           </div>
-          <div>
+          <div className="review">
             <p>"Great Stay with Kids"</p>
             <p>
               Harmony Heights was excellent for our family trip. The Kids' Club
@@ -156,44 +192,39 @@ function Default() {
               facilities were a lifesaver. Only downside was the room size, but
               overall a fantastic stay!
             </p>
-            <p>— Mark R.,Free State</p>
+            <p>— Mark R., Free State</p>
           </div>
-          <img
-            src="/src/assets/hotel-app-images/rating.jpg"
-            alt="smiling-people-rating"
-            width="210"
-            height="210"
-          />
+          <img src="/src/assets/hotel-app-images/rating.jpg" alt="smiling-people-rating" width="210" height="210" />
         </div>
 
-        <div>
+        <div className="location">
           <h2>LOCATION</h2>
-        </div>
-        <div>
-          <iframe
-            width="520"
-            height="400"
-            frameborder="0"
-            marginheight="0"
-            marginwidth="0"
-            src="https://maps.google.com/maps?width=520&amp;height=400&amp;hl=en&amp;q=5088%20Maele%20street%20+(Arts%20and%20crafts%20centre)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-          >
-            <a href="https://www.gps.ie/">gps devices</a>
-          </iframe>
-        </div>
-        <div>
-          <h3>Address:</h3>
-
-          <p>Arts and Crafts Centre</p>
-          <p>5088 Maele street</p>
-
-          <p>Zone 6</p>
-          <p>Ga-Rankuwa</p>
-          <p>Pretoria</p>
+          <div className="map">
+            <iframe
+              width="720"
+              height="400"
+              frameBorder="0"
+              scrolling="no"
+              marginHeight="0"
+              marginWidth="0"
+              src="https://maps.google.com/maps?width=720&amp;height=400&amp;hl=en&amp;q=Ga-Rankuwa%20Arts%20and%20Crafts%20Centre%205088%20Maele%20Street+(Harmony%20Heights)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+            >
+              <a href="https://www.gps.ie/">gps devices</a>
+            </iframe>
+          </div>
+          <div className="address">
+            <h3>Address:</h3>
+            <p>Arts and Crafts Centre</p>
+            <p>5088 Maele street</p>
+            <p>Zone 6</p>
+            <p>Ga-Rankuwa</p>
+            <p>Pretoria</p>
+          </div>
         </div>
       </main>
+
       <footer>
-        <Footer/>
+        <Footer />
       </footer>
     </div>
   );

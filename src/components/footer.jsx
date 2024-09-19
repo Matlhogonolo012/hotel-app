@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 function Footer(){
     return(
         <div>
@@ -40,18 +42,31 @@ function Footer(){
           </div>
           <div>
             <p>sign up for promotions:</p>
-            <input type="text" name="" id="" />
+            <input type="email" name="" id="" placeholder="Enter email" />
           </div>
         </div>  
         <div>
-            <img src="/src/assets/icons/facebook-02-stroke-rounded.svg" alt="facebook" />
-            <img src="/src/assets/icons/new-twitter-stroke-rounded.svg" alt="twitter" />
-            <img src="/src/assets/icons/instagram-stroke-rounded.svg" alt="instagram" />
-            <img src="/src/assets/icons/tiktok-stroke-rounded.svg" alt="tiktok" />
+          <Link to="https://www.facebook.com/">
+           <img src="/src/assets/icons/facebook-02-stroke-rounded.svg" alt="facebook" />
+          </Link>
+           <Link to="https://www.instagram.com/accounts/login/?hl=en">
+           <img src="/src/assets/icons/instagram-stroke-rounded.svg" alt="instagram" />
+            </Link>
+            <Link to="https://x.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJteCI6IjIifQ%3D%3D%22%7D">
+             <img src="/src/assets/icons/new-twitter-stroke-rounded.svg" alt="twitter" />
+            </Link>
+           
+            <Link to= "https://www.tiktok.com/login">
+             <img src="/src/assets/icons/tiktok-stroke-rounded.svg" alt="tiktok" />
+            </Link>
+           
         </div>
         <div>
-          <p>Terms and Conditions</p>
-          <p>Privacy Policy</p>
+          
+          <p><Link to="/terms-and-conditions">Terms and Conditions</Link></p>
+          
+          
+          <p> <Link to="/privacy-policy">Privacy Policy  </Link></p>
         </div>
       
         </div>

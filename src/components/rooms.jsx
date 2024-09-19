@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 function Rooms(){
+  const [roomType, setRoomType] = useState('');
+  
+
     return(
 
         <div>
@@ -214,67 +219,7 @@ function Rooms(){
             </div>
           </div>
         </div>
-        <div>
-          <h2>FACILITIES</h2>
-        </div>
-
-        <div>
-          <div>
-            <p>Indoor Swimming Pool</p>
-            <img
-              src="/src/assets/hotel-app-images/indoor-pool.jpg"
-              alt="pool"
-              width="619"
-              height="416"
-            />
-          </div>
-          <div>
-            <p>Spa</p>
-            <img
-              src="/src/assets/hotel-app-images/spa.jpg"
-              alt="spa"
-              width="619"
-              height="416"
-            />
-          </div>
-          <div>
-            <p>Kids Play Area</p>
-            <img
-              src="/src/assets/hotel-app-images/playarea.jpg"
-              alt="play-area"
-              width="619"
-              height="416"
-            />
-          </div>
-          <div>
-            <p>Laundry</p>
-            <img
-              src="/src/assets/hotel-app-images/laundry.jpg"
-              alt="laundry"
-              width="619"
-              height="416"
-            />
-          </div>
-          <div>
-            <p>Resturant</p>
-            <img
-              src="/src/assets/hotel-app-images/resturant.jpg"
-              alt="resturant"
-              width="619"
-              height="416"
-            />
-          </div>
-          <div>
-            <p>Gym</p>
-            <img
-              src="/src/assets/hotel-app-images/gym.jpg"
-              alt="gym"
-              width="619"
-              height="416"
-            />
-          </div>
-        </div>
-
+       
         </div>
     )
 }
