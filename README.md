@@ -43,9 +43,10 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
-* [![React][React.js]][React-url]
-* [![Redux][Redux.js]][Redux-url]
-* [![Firebase][Firebase]][Firebase-url]
+
+- [![React][React.js]][React-url]
+- [![Redux][Redux.js]][Redux-url]
+- [![Firebase][Firebase]][Firebase-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -61,16 +62,21 @@ Follow these steps to set up the project locally:
 ### Installation
 
 1. Clone the repository:
-   ```bash
+   ```
    git clone https://github.com/Matlhogonolo012/hotel-app.git
+   ```
 
 Navigate to the project directory:
 
-```cd hotel-app```
+```
+cd hotel-app
+```
 
 2. Install the required NPM packages:
 
-```npm install```
+```
+npm install
+```
 
 3. Set up Firebase:
 
@@ -81,18 +87,22 @@ Create a .env file in your project root and add your Firebase config variables.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
+
 Start the application:
 
-```npm run dev```
+```
+npm run dev
+```
 
-Open your browser and navigate to http://localhost:5173 to see the app in action!
+Open your browser and navigate to ```http://localhost:5173``` to see the app in action!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Contact
+
 - Author: Matlhogonolo Naoa
 - Email: tlhoxi12@gmail.com
-- Project Link: ```https://github.com/Matlhogonolo012/hotel-app```
+- Project Link: `https://github.com/Matlhogonolo012/hotel-app`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
