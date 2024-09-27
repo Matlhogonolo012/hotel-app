@@ -71,7 +71,7 @@ function UserLogin() {
         <Logo />
       </header>
       <div>
-        <Link to="/user-register">
+        <Link to="/">
           <img src="/src/assets/icons/link-backward-stroke-rounded.svg" alt="Back" />
         </Link>
       </div>
