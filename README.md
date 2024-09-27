@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Matlhogonolo012/hotel-app">
-    <img src="./src/components/logo.jsx" alt="Logo" width="80" height="80">
+    <img src="/hotel-app/src/components/logo.jsx" alt="Logo" width="80" height="80">
   </a>
 
   <h1 align="center">Harmony Heights Hotel App</h1>
@@ -92,8 +92,7 @@ Open your browser and navigate to http://localhost:5173 to see the app in action
 ## Contact
 - Author: Matlhogonolo Naoa
 - Email: tlhoxi12@gmail.com
-- Project Link: ```bash
- https://github.com/Matlhogonolo012/hotel-app```
+- Project Link: ```https://github.com/Matlhogonolo012/hotel-app```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -102,4 +101,4 @@ Open your browser and navigate to http://localhost:5173 to see the app in action
 [Redux.js]: https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white
 [Redux-url]: https://redux.js.org/
 [Firebase]: https://firebase.google.com/
-[Firebase-url]: https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black 
+[Firebase-url]: https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black
