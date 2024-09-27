@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Matlhogonolo012/hotel-app">
-    <img src="/src/components/logo.jsx" alt="Logo" width="80" height="80">
+    <img src="./src/components/logo.jsx" alt="Logo" width="80" height="80">
   </a>
 
   <h1 align="center">Harmony Heights Hotel App</h1>
@@ -63,6 +63,7 @@ Follow these steps to set up the project locally:
 1. Clone the repository:
    ```bash
    git clone https://github.com/Matlhogonolo012/hotel-app.git
+
 Navigate to the project directory:
 
 ```cd hotel-app```
@@ -89,9 +90,16 @@ Open your browser and navigate to http://localhost:5173 to see the app in action
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Contact
-Matlhogonolo Naoa
-Email: tlhoxi12@gmail.com
-
-Project Link: https://github.com/Matlhogonolo012/hotel-app
+- Author: Matlhogonolo Naoa
+- Email: tlhoxi12@gmail.com
+- Project Link: ```bash
+ https://github.com/Matlhogonolo012/hotel-app```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Redux.js]: https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white
+[Redux-url]: https://redux.js.org/
+[Firebase]: https://firebase.google.com/
+[Firebase-url]: https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black 
