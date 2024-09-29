@@ -21,6 +21,7 @@ const RoomList = () => {
     description: "",
     price: "",
     availability: false,
+    maxGuests: 0, // Add maxGuests to edit form
   });
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const RoomList = () => {
       description: room.description,
       price: room.price,
       availability: room.availability,
+      maxGuests: room.maxGuests, // Set maxGuests when editing
     });
   };
 
@@ -107,6 +109,16 @@ const RoomList = () => {
             />
           </label>
           <label>
+            Max Guests:
+            <input
+              type="number"
+              name="maxGuests"
+              value={editForm.maxGuests}
+              onChange={handleEditChange}
+              required
+            />
+          </label>
+          <label>
             Availability:
             <input
               type="checkbox"
@@ -132,20 +144,15 @@ const RoomList = () => {
         filteredRooms.map((room) => (
           <div key={room.id} className="room-item">
             <h2>{room.roomType}</h2>
-            {room.image}
+            {room.image && <img src={room.image} alt={room.roomType} />}
             <p>{room.description}</p>
             <p>R{room.price}</p>
             <p>Status: {room.availability ? "Available" : "Not Available"}</p>
-            <button
-              onClick={() => handleEditClick(room)}
-              className="edit-button"
-            >
+            <p>Max Guests: {room.maxGuests}</p> {/* Display max guests */}
+            <button onClick={() => handleEditClick(room)} className="edit-button">
               Edit
             </button>
-            <button
-              onClick={() => handleDeleteClick(room.id)}
-              className="delete-button"
-            >
+            <button onClick={() => handleDeleteClick(room.id)} className="delete-button">
               Delete
             </button>
           </div>

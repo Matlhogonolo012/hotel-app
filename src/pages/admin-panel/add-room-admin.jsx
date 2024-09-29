@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addRoom } from '/src/redux-state-management/features/rooms-reducer.jsx';
-import '/src/pages/admin-panel/add-room-admin.css'
+import '/src/pages/admin-panel/add-room-admin.css';
 
 const AddRoomForm = () => {
     const dispatch = useDispatch();
@@ -11,7 +11,8 @@ const AddRoomForm = () => {
         description: '',
         price: '',
         roomType: '',
-        availability: true
+        availability: true,
+        maxGuests: 0 // Added maxGuests to state
     });
     const [errors, setErrors] = useState({});
 
@@ -28,6 +29,9 @@ const AddRoomForm = () => {
         if (!room.description) errors.description = 'Description is required.';
         if (!room.price || isNaN(room.price) || room.price <= 0) errors.price = 'Price must be a positive number.';
         if (!room.roomType) errors.roomType = 'Room type is required.';
+        if (!room.maxGuests || isNaN(room.maxGuests) || room.maxGuests <= 0) {
+            errors.maxGuests = 'Max guests must be a positive number.';
+        }
         return errors;
     };
 
@@ -38,7 +42,7 @@ const AddRoomForm = () => {
             setErrors(validationErrors);
         } else {
             dispatch(addRoom(room));
-            setRoom({ title: '', image: null, description: '', price: '', roomType: '', availability: true });
+            setRoom({ title: '', image: null, description: '', price: '', roomType: '', availability: true, maxGuests: 0 });
             setErrors({});
         }
     };
@@ -114,6 +118,20 @@ const AddRoomForm = () => {
                         <option value="Deluxe Family Room">Deluxe Family Room</option>
                     </select>
                     {errors.roomType && <p className="error-message">{errors.roomType}</p>}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="maxGuests">Max Guests:</label>
+                    <input
+                        type="number"
+                        id="maxGuests"
+                        name="maxGuests"
+                        value={room.maxGuests}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                    {errors.maxGuests && <p className="error-message">{errors.maxGuests}</p>}
                 </div>
 
                 <div className="form-group">

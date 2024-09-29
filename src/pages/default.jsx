@@ -31,27 +31,10 @@ function Default() {
             <button>
               <Link to="/booking">Book Now</Link>
             </button>
-            <button className="sidebar-toggle" onClick={handleSidebarToggle}>
-              <img src="/src/assets/icons/user-circle-stroke-rounded.svg" alt="user" />
-              <img src="/src/assets/icons/menu-01-stroke-rounded.svg" alt="menu" />
-            </button>
-            <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-              <button onClick={handleSidebarToggle} className="close-sidebar">
-                <img src="/src/assets/icons/cancel-circle-stroke-rounded.svg" alt="cancel" />
-              </button>
-              <ul>
-                <h3>Login as:</h3>
-                <li>
-                  <Link to="/user-login">User</Link>
-                </li>
-                <li>
-                  <Link to="/admin-login">Admin</Link>
-                </li>
-              </ul>
-            </div>
+           
             <div className="user-auth-buttons">
               <Link to="/user-login" className="auth-button">Login</Link>
-              <Link to="/user-register" className="auth-button">Register</Link>
+              <Link to="/user-registration" className="auth-button">Register</Link>
             </div>
           </nav>
         </div>
