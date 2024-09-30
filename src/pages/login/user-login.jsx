@@ -1,26 +1,27 @@
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux-state-management/features/authentication-reducer";
-import { fetchUserRole } from "/src/redux-state-management/features/authorization-reducer.jsx";
 import Logo from "../../components/logo";
-import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import '/src/pages/login/user-login.css'
 
 function UserLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  
-  const { loading, error: authError, user } = useSelector((state) => state.userAuthentication);
-  const { role, loading: roleLoading } = useSelector((state) => state.userAuthorization);
+  const navigate = useNavigate();
+  const { loading, error: authError, isLoggedIn } = useSelector((state) => state.userAuthentication);
 
   useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/user-dashboard");
+    }
     if (authError) {
       setError(authError);
     }
-  }, [authError]);
+  }, [authError, isLoggedIn, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,73 +37,62 @@ function UserLogin() {
     setError("");
 
     if (!email || !password) {
-      setError("Email and password are required!");
+      setError("Both fields are required!");
       return;
     }
 
     try {
       await dispatch(loginUser({ email, password })).unwrap();
-      alert("Login successful!");
+      navigate("/user-dashboard"); // Redirect to home after successful login
     } catch (err) {
-      setError("Login failed. Please try again.");
-      return; 
+      setError("Login failed. Please check your credentials.");
     }
   };
 
-  useEffect(() => {
-    if (user.uid) {
-      dispatch(fetchUserRole(user.uid));
-    }
-  }, [user.uid, dispatch]);
-
-  useEffect(() => {
-    if (role && !roleLoading) {
-      if (role === 'admin') {
-        navigate("/admin-dashboard");
-      } else {
-        navigate("/user-dashboard");
-      }
-    }
-  }, [role, roleLoading, navigate]);
-
   return (
-    <div>
-      <header>
+    <div className="user-login-container">
+      <header className="user-login-header">
         <Logo />
       </header>
-      <div>
-        <Link to="/user-register">
-          <img src="/src/assets/icons/link-backward-stroke-rounded.svg" alt="Back" />
-        </Link>
-      </div>
-      <div>
-        <form onSubmit={handleSubmit}>
+      <main className="user-login-main">
+        <form className="user-login-form" onSubmit={handleSubmit}>
           <fieldset>
-            <legend>Login</legend>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={email}
-              onChange={handleChange}
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={handleChange}
-              
-            />
-            <button type="submit" >
-              {loading ? "Logging in..." : "Login"}
+            <legend className="user-login-legend">User Login</legend>
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">Email</label>
+              <input
+                onChange={handleChange}
+                type="email"
+                name="email"
+                id="email"
+                autoComplete="off"
+                value={email}
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password" className="form-label">Password</label>
+              <input
+                onChange={handleChange}
+                type="password"
+                name="password"
+                id="password"
+                autoComplete="off"
+                value={password}
+                className="form-input"
+              />
+            </div>
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
             </button>
-            No account? <Link to="/user-registration">Create one</Link>
-            <p>Forgot password? <Link to="/forgot-password">Reset</Link></p>
+            {error && <p className="error-message">{error}</p>}
           </fieldset>
         </form>
-      </div>
+        <div className="user-login-footer">
+          <Link to="/user-registration" className="register-link">Don't have an account? Register</Link>
+          <Link to="/forgot-password" className="reset-password-link">Forgot Password?</Link>
+        </div>
+      </main>
     </div>
   );
 }

@@ -1,57 +1,37 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import Footer from '../components/footer';
 import Rooms from '../components/rooms';
 import Logo from '../components/logo';
-import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer.jsx';
-import '/src/pages/sidebar.css';
 import '/src/pages/deafault.css'; 
 
 function Default() {
-  const dispatch = useDispatch();
-  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+ const navigate = useNavigate();
 
-  const handleSidebarToggle = () => {
-    dispatch(toggleSidebar());
-  };
+  const handleNavigate = (e) => {
+    e.preventDefault();
+    navigate("/booking")
+  }
 
   return (
     <div>
       <header>
         <div className="contact-info">
-          <p>Book by phone: 081 368 4688</p> OR click icon
+          <p>Book by phone: 081 368 4688 OR click icon
           <Link to="https://wa.me/qr/YTSZ7HS4JE4QL1">
             <img src="/src/assets/icons/whatsapp-business-stroke-rounded.svg" alt="whatsapp-business" />
-          </Link>
+          </Link></p> 
         </div>
         <div className="nav-container">
           <nav>
-            <Logo />
-            <Link to="/">Home</Link>
-            <button>
-              <Link to="/booking">Book Now</Link>
+           <Logo />
+            
+            <button className='book-btn' onClick={handleNavigate}>
+              Book Now
             </button>
-            <button className="sidebar-toggle" onClick={handleSidebarToggle}>
-              <img src="/src/assets/icons/user-circle-stroke-rounded.svg" alt="user" />
-              <img src="/src/assets/icons/menu-01-stroke-rounded.svg" alt="menu" />
-            </button>
-            <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-              <button onClick={handleSidebarToggle} className="close-sidebar">
-                <img src="/src/assets/icons/cancel-circle-stroke-rounded.svg" alt="cancel" />
-              </button>
-              <ul>
-                <h3>Login as:</h3>
-                <li>
-                  <Link to="/user-login">User</Link>
-                </li>
-                <li>
-                  <Link to="/admin-login">Admin</Link>
-                </li>
-              </ul>
-            </div>
+           
             <div className="user-auth-buttons">
               <Link to="/user-login" className="auth-button">Login</Link>
-              <Link to="/user-register" className="auth-button">Register</Link>
+              <Link to="/user-registration" className="auth-button">Register</Link>
             </div>
           </nav>
         </div>

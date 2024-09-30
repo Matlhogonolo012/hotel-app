@@ -1,190 +1,177 @@
 .booking-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .booking-header {
-    padding: 20px;
-    background-color: #f4f4f4;
-  }
-  
-  .back-link img {
-    width: 24px;
-    height: 24px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.booking-header {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.back-link img {
+  width: 24px;
+  height: 24px;
+}
+
+.booking-main {
+  flex: 1;
+  padding: 20px;
+}
+
+.booking-form-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.availability-form, .booking-summary, .search-rooms {
+  margin-bottom: 20px;
+}
+
+.availability-form fieldset, .booking-summary fieldset {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.availability-form legend, .booking-summary legend {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.availability-form label, .search-rooms label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.availability-form input, .search-rooms input, .availability-form select {
+  margin-top: 5px;
+  padding: 8px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.availability-form button, .booking-summary button {
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+
+.booking-summary {
+  flex: 0.4;
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.booking-summary ul {
+  list-style-type: none;
+}
+
+.booking-summary li {
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+
+
+
+.room-list {
+  margin-top: 20px;
+}
+
+.room-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.room-item h3 {
+  margin-bottom: 10px;
+}
+
+.booking-footer {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+@media (max-width: 1200px) {
   .booking-main {
-    flex: 1;
-    padding: 20px;
+    padding: 15px;
   }
-  
+
   .booking-form-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 0 15px;
   }
-  
-  .availability-form, .booking-summary, .search-rooms {
+}
+
+@media (max-width: 768px) {
+  .booking-container {
+    flex-direction: column;
+  }
+
+  .booking-form-container {
+    margin-right: 0;
     margin-bottom: 20px;
   }
-  
-  .availability-form fieldset, .booking-summary fieldset {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 8px;
-  }
-  
-  .availability-form legend, .booking-summary legend {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-  }
-  
-  .availability-form label, .search-rooms label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .availability-form input, .search-rooms input, .availability-form select {
-    margin-top: 5px;
-    padding: 8px;
+
+  .sidebar {
     width: 100%;
     max-width: 300px;
   }
-  
-  .availability-form button, .booking-summary button {
-    margin-top: 10px;
-    padding: 10px 20px;
-  }
-  
-  .booking-summary ul {
-    list-style-type: none;
-  }
-  
-  .booking-summary li {
-    margin-bottom: 10px;
-  }
-  
-  .error-message {
-    color: red;
-  }
-  
-  .success-message {
-    color: green;
-  }
-  
-  .sidebar-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-  }
-  
-  .sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 250px;
-    height: 100%;
-    background: #fff;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    overflow-y: auto;
-  }
-  
-  .sidebar.open {
-    transform: translateX(0);
-  }
-  
-  .close-sidebar {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-  }
-  
+
   .sidebar-content {
-    padding: 20px;
-  }
-  
-  .room-list {
-    margin-top: 20px;
-  }
-  
-  .room-item {
-    border: 1px solid #ddd;
     padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
   }
-  
+
+  .back-link img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .availability-form input, .search-rooms input, .availability-form select {
+    max-width: 100%;
+  }
+
+  .availability-form button, .booking-summary button {
+    padding: 8px 16px;
+  }
+
+  .room-item {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .availability-form label, .search-rooms label {
+    font-size: 0.9em;
+  }
+
+  .availability-form input, .search-rooms input, .availability-form select {
+    padding: 6px;
+  }
+
+  .availability-form button, .booking-summary button {
+    padding: 6px 12px;
+  }
+
   .room-item h3 {
-    margin-bottom: 10px;
+    font-size: 1.2em;
   }
-  
-  .booking-footer {
-    padding: 20px;
-    background-color: #f4f4f4;
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 1200px) {
-    .booking-main {
-      padding: 15px;
-    }
-  
-    .booking-form-container {
-      padding: 0 15px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .booking-container {
-      flex-direction: column;
-    }
-  
-    .sidebar {
-      width: 100%;
-      max-width: 300px;
-    }
-  
-    .sidebar-content {
-      padding: 15px;
-    }
-  
-    .back-link img {
-      width: 20px;
-      height: 20px;
-    }
-  
-    .availability-form input, .search-rooms input, .availability-form select {
-      max-width: 100%;
-    }
-  
-    .availability-form button, .booking-summary button {
-      padding: 8px 16px;
-    }
-  
-    .room-item {
-      padding: 10px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .availability-form label, .search-rooms label {
-      font-size: 0.9em;
-    }
-  
-    .availability-form input, .search-rooms input, .availability-form select {
-      padding: 6px;
-    }
-  
-    .availability-form button, .booking-summary button {
-      padding: 6px 12px;
-    }
-  
-    .room-item h3 {
-      font-size: 1.2em;
-    }
-  }
-  
+}
