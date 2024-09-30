@@ -1,6 +1,6 @@
 .booking-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
   padding: 20px;
@@ -79,8 +79,17 @@
 
 .success-message {
   color: green;
-  background-color: bisque;
 }
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+
+
 
 .room-list {
   margin-top: 20px;

@@ -12,7 +12,7 @@ const AddRoomForm = () => {
         price: '',
         roomType: '',
         availability: true,
-        maxGuests: 0 // Added maxGuests to state
+        maxGuests: 0 
     });
     const [errors, setErrors] = useState({});
 

@@ -1,0 +1,85 @@
+.user-login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .user-login-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-login-main {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-login-form {
+    width: 100%;
+  }
+  
+  .user-login-legend {
+    font-size: 24px;
+    text-align: center;
+    color: #5b3a29; 
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5b3a29; 
+    color: white; 
+    border: none;
+    border-radius: 5px; 
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-button:hover {
+    background-color: #4a2c21; 
+  }
+  
+  .error-message {
+    color: red; 
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .user-login-footer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .register-link, .reset-password-link {
+    display: block;
+    margin-top: 10px;
+    color: #5b3a29; 
+    text-decoration: none; 
+  }
+  
+  .register-link:hover, .reset-password-link:hover {
+    text-decoration: underline; 
+  }
+  

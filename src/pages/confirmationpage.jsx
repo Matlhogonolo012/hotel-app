@@ -12,23 +12,22 @@ function Confirmation() {
   };
 
   return (
-    <div>
-      <h1>Booking Confirmation</h1>
-      {orderId && <p>Order ID: {orderId}</p>}
+    <div className="confirmation-container">
+      <h1 className="confirmation-header">Booking Confirmation</h1>
+      {orderId && <p className="confirmation-order-id">Order ID: {orderId}</p>}
 
       {bookingData && (
-        <div>
-          <h2>Your Booking Details</h2>
-          <p>Check-in: {bookingData.checkIn}</p>
-          <p>Check-out: {bookingData.checkOut}</p>
-          <p>Room ID: {bookingData.roomId}</p>
-          <p>Number of Guests: {bookingData.guests}</p>
-          <p>Total Price: USD {bookingData.totalPrice}</p>
-          
+        <div className="confirmation-details">
+          <h2 className="confirmation-subheader">Your Booking Details</h2>
+          <p className="confirmation-detail"><strong>Check-in:</strong> {bookingData.checkIn}</p>
+          <p className="confirmation-detail"><strong>Check-out:</strong> {bookingData.checkOut}</p>
+          <p className="confirmation-detail"><strong>Room ID:</strong> {bookingData.roomId}</p>
+          <p className="confirmation-detail"><strong>Number of Guests:</strong> {bookingData.guests}</p>
+          <p className="confirmation-detail"><strong>Total Price:</strong> USD {bookingData.totalPrice}</p>
         </div>
       )}
 
-      <button onClick={handleBackToHome}>Back to Home</button>
+      <button className="confirmation-button" onClick={handleBackToHome}>Back to Home</button>
     </div>
   );
 }

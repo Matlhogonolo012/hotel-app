@@ -1,133 +1,91 @@
 .user-register-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .user-register-header {
-    padding: 20px;
-    background-color: #f4f4f4;
-  }
-  
-  .user-register-back-link {
-    padding: 10px;
-  }
-  
-  .user-register-back-icon {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .user-register-main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .user-registration-form {
-    max-width: 500px;
-    width: 100%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  .user-registration-legend {
-    font-size: 1.5em;
-    margin-bottom: 15px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .role-label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .role-radio {
-    margin-right: 5px;
-  }
-  
-  .terms-label {
-    display: flex;
-    align-items: center;
-  }
-  
-  .terms-checkbox {
-    margin-right: 5px;
-  }
-  
-  .terms-link {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .submit-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .submit-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  .error-message {
-    color: red;
-    margin-top: 10px;
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .user-register-main {
-      padding: 15px;
-    }
-  
-    .user-register-back-icon {
-      width: 20px;
-      height: 20px;
-    }
-  
-    .user-registration-form {
-      padding: 15px;
-    }
-  
-    .submit-button {
-      padding: 8px 16px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .user-registration-legend {
-      font-size: 1.2em;
-    }
-  
-    .form-input {
-      padding: 6px;
-    }
-  
-    .submit-button {
-      padding: 6px 12px;
-    }
-  }
-  
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ddd; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.user-register-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-register-back-link {
+  margin-bottom: 20px;
+}
+
+.user-register-back-icon {
+  width: 24px; 
+  height: 24px;
+}
+
+.user-register-main {
+  display: flex;
+  justify-content: center;
+}
+
+.user-registration-form {
+  width: 100%;
+}
+
+.user-registration-legend {
+  font-size: 24px;
+  text-align: center;
+  color: #5b3a29; 
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd; 
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
+}
+
+.role-label {
+  display: block;
+  margin: 5px 0;
+}
+
+.terms-label {
+  display: flex;
+  align-items: center;
+}
+
+.terms-checkbox {
+  margin-right: 10px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #5b3a29; 
+  color: white; 
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #4a2c21; 
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}

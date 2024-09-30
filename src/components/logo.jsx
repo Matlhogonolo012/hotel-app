@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import '/src/components/logo.css'
+
 
 function Logo() {
     return (
@@ -9,6 +9,8 @@ function Logo() {
                     src="/src/assets/hotel-app-images/logo.png"
                     alt="logo"
                     className="logo-image"
+                    height="100px"
+                    width= "100px"
                 />
             </Link>
         </div>

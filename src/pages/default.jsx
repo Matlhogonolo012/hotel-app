@@ -1,35 +1,32 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import Footer from '../components/footer';
 import Rooms from '../components/rooms';
 import Logo from '../components/logo';
-import { toggleSidebar } from '/src/redux-state-management/features/sidebar-reducer.jsx';
-import '/src/pages/sidebar.css';
 import '/src/pages/deafault.css'; 
 
 function Default() {
-  const dispatch = useDispatch();
-  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+ const navigate = useNavigate();
 
-  const handleSidebarToggle = () => {
-    dispatch(toggleSidebar());
-  };
+  const handleNavigate = (e) => {
+    e.preventDefault();
+    navigate("/booking")
+  }
 
   return (
     <div>
       <header>
         <div className="contact-info">
-          <p>Book by phone: 081 368 4688</p> OR click icon
+          <p>Book by phone: 081 368 4688 OR click icon
           <Link to="https://wa.me/qr/YTSZ7HS4JE4QL1">
             <img src="/src/assets/icons/whatsapp-business-stroke-rounded.svg" alt="whatsapp-business" />
-          </Link>
+          </Link></p> 
         </div>
         <div className="nav-container">
           <nav>
-            <Logo />
-            <Link to="/">Home</Link>
-            <button>
-              <Link to="/booking">Book Now</Link>
+           <Logo />
+            
+            <button className='book-btn' onClick={handleNavigate}>
+              Book Now
             </button>
            
             <div className="user-auth-buttons">

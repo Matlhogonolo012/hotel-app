@@ -3,7 +3,7 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addBooking } from "/src/redux-state-management/features/firestore-reducer/firestore.jsx";
-
+import '/src/pages/paypal.css'
 function PayPal() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -16,11 +16,11 @@ function PayPal() {
     guests,
     userId,
     userEmail,
-    totalPrice, // Assuming this is ZAR
+    totalPrice, 
   } = location.state || {};
 
-  const exchangeRate = 0.053; // Example exchange rate from ZAR to USD
-  const totalPriceInUSD = (totalPrice * exchangeRate).toFixed(2); // Ensure to convert and format
+  const exchangeRate = 0.053; 
+  const totalPriceInUSD = (totalPrice * exchangeRate).toFixed(2); 
 
   const bookingData = {
     checkIn,
@@ -29,7 +29,7 @@ function PayPal() {
     guests,
     userId,
     userEmail,
-    totalPrice: totalPriceInUSD, // Store USD price
+    totalPrice: totalPriceInUSD, 
   };
 
   const handleApprove = (orderId) => {
@@ -39,15 +39,17 @@ function PayPal() {
   };
 
   return (
-    <div>
-      <h1>Proceed to Pay</h1>
-      <p>User ID: {userId}</p>
-      <p>Email: {userEmail}</p>
-      <p>Check-in: {checkIn}</p>
-      <p>Check-out: {checkOut}</p>
-      <p>Room ID: {roomId}</p>
-      <p>Guests: {guests}</p>
-      <p>Total Price: USD {totalPriceInUSD}</p> {/* Display USD total price */}
+    <div className="paypal-container">
+      <h1 className="paypal-header">Proceed to Pay</h1>
+      <div className="paypal-details">
+        <p className="paypal-detail"><strong>User ID:</strong> {userId}</p>
+        <p className="paypal-detail"><strong>Email:</strong> {userEmail}</p>
+        <p className="paypal-detail"><strong>Check-in:</strong> {checkIn}</p>
+        <p className="paypal-detail"><strong>Check-out:</strong> {checkOut}</p>
+        <p className="paypal-detail"><strong>Room ID:</strong> {roomId}</p>
+        <p className="paypal-detail"><strong>Guests:</strong> {guests}</p>
+        <p className="paypal-detail"><strong>Total Price:</strong> USD {totalPriceInUSD}</p>
+      </div>
 
       <PayPalScriptProvider options={{ "client-id": "AcFIfsL5dtM6rXxjSddZpMlkO-r_dhpYH6ICeYQe7RQT9YO7NtqTck6mr-uZqR1S-7knxjdVN0iRLvvi", currency: "USD" }}>
         <PayPalButtons

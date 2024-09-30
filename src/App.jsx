@@ -11,7 +11,6 @@ import ForgotPassword from "./pages/login/forgot-password";
 import AddRoomForm from "./pages/admin-panel/add-room-admin";
 import TermsAndConditions from "./pages/terms-privacy.jsx/terms-and-conditions";
 import PrivacyPolicy from "./pages/terms-privacy.jsx/privacy-policy";
-import UserRating from "./pages/user-panel/ratings";
 import Summary from "./pages/summary";
 import PayPal from "./pages/paypal";
 import Confirmation from "./pages/confirmationpage";
@@ -36,7 +35,6 @@ function App() {
             element={<TermsAndConditions />}
           />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/ratings" element={<UserRating />} />
           <Route path="summary" element={<Summary/>}/>
           <Route path="*" element={<PageDoesNotExist />} />
           <Route path="/paypal" element={<PayPal />} />

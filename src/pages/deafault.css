@@ -1,185 +1,260 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* General Layout */
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header Styling */
+header {
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.contact-info {
+  font-size: 14px;
+  text-align: right;
+  margin-bottom: 10px;
+  background-color: #e2ce5a; /* Brown color */
+ 
+}
+
+.contact-info p {
+  margin: 0;
+  color: white;
+}
+
+.contact-info a {
+  color: white; /* Brown color for links */
+  text-decoration: none;
+  margin-left: 10px;
+}
+nav {
+  display: flex;
+ flex-direction: row;
+ justify-items: center;
+ justify-content: space-between;
+ align-items: center;
+}
+
+
+
+nav a:hover {
+  color: #c49208;
+}
+
+.book-btn{
+  background-color: rgb(243, 170, 60);
+  color: white;
+  text-decoration: none;
+}
+.user-auth-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.auth-button {
+  color: #ccb90e;
+  font-weight: bold;
+}
+
+.auth-button:hover {
+  text-decoration: underline;
+}
+
+/* Hero Section */
+.hero-image img {
+  width: 100%;
+  height: auto;
+}
+
+.hero-text {
+  text-align: center;
+  padding: 30px 0;
+  background-color: #f9f9f9;
+}
+
+.hero-text p {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.hero-text h2 {
+  font-size: 36px;
+  margin-top: 10px;
+  color: #333;
+}
+
+/* Features */
+.features {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 0;
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.feature {
+  flex: 1;
+  padding: 0 15px;
+}
+
+.feature img {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 20px;
+}
+
+.feature h4 {
+  font-size: 20px;
+  color: #ccb90e;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Facilities - 3x2 Grid */
+.facilities {
+  padding: 50px 0;
+  background-color: #fff;
+  text-align: center;
+}
+
+.facilities h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.facilities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.facility img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.facility p {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* Ratings */
+.ratings {
+  padding: 50px 0;
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.ratings h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.rating img {
+  margin-bottom: 10px;
+}
+
+.rating p {
+  font-size: 22px;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.review {
+  margin: 20px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Location Section */
+.location {
+  padding: 60px 20px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.location .map {
+  flex: 1;
+}
+
+.location iframe {
+  width: 100%;
+  border-radius: 10px;
+  margin: 20px 0;
+  height: 400px;
+}
+
+.location-info {
+  flex: 1;
+  padding-left: 30px;
+}
+
+.location-info h3 {
+  font-size: 30px;
+  color: #333;
+}
+
+.location-info p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.address {
+  margin-top: 20px;
+}
+
+.address h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+address p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+footer a {
+  color: #ccb90e;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .features,
+  .facilities-grid {
+    grid-template-columns: repeat(1, 1fr);
   }
-  
-  body {
-    font-family: Arial, sans-serif;
-  }
-  
-  header {
-    background: #f8f9fa;
-    padding: 10px 20px;
-  }
-  
-  .contact-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  .contact-info p {
-    margin: 0;
-  }
-  
-  .contact-info a {
-    margin-left: 10px;
-  }
-  
-  .nav-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  nav {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .user-auth-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  
-  .auth-button {
-    text-decoration: none;
-    color: #ffffff;
-    background-color: #f5f24f;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    text-align: center;
-    display: inline-block;
-    transition: background-color 0.3s, transform 0.3s;
-  }
-  
-  .auth-button:hover {
-    background-color: #e9d207;
-    transform: scale(1.05);
-  }
-  
-  .hero-image img {
-    width: 100%;
-    height: auto;
-    max-width: 1320px;
-  }
-  
-  .hero-text {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .hero-text p {
-    margin: 10px 0;
-  }
-  
-  .hero-text h2 {
-    margin: 10px 0;
-  }
-  
-  .features, .location-info, .facilities, .ratings, .location {
-    padding: 20px;
-  }
-  
-  .features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-  }
-  
-  
-  .ratings {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  .rating img {
-    width: 70px;
-    height: 70px;
-  }
-  
-  .review {
-    flex: 1 1 calc(50% - 20px);
-  }
-  
+
   .location {
-    display: flex;
     flex-direction: column;
-    gap: 20px;
   }
-  
-  .map iframe {
-    width: 100%;
-    height: 400px;
-    border: none;
+
+  .location-info {
+    padding: 20px 0;
   }
-  
-  .address {
-    margin-top: 20px;
+
+  .nav-container {
+    flex-direction: column;
   }
-  
-  .address p {
-    margin: 5px 0;
-  }
-  
-  @media (max-width: 768px) {
-    .nav-container {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .user-auth-buttons {
-      flex-direction: column;
-      gap: 5px;
-    }
-  
-    .features {
-      flex-direction: column;
-    }
-  
-    .feature, .facility {
-      flex: 1 1 100%;
-    }
-  
-    .ratings {
-      flex-direction: column;
-    }
-  
-    .rating img {
-      width: 50px;
-      height: 50px;
-    }
-  
-    .review {
-      flex: 1 1 100%;
-    }
-  
-    .map iframe {
-      height: 300px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .hero-text {
-      padding: 10px;
-    }
-  
-    .hero-text p, .hero-text h2 {
-      font-size: 16px;
-    }
-  
-    .auth-button {
-      padding: 8px 16px;
-      font-size: 14px;
-    }
-  }
-  
+}
